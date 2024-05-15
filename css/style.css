@@ -6,7 +6,7 @@ body{
 
 :root{
     --padding-container: 100px 0;
-    --color-title: #001a49;
+    --color-title: #0e681b;
 }
 
 /* front page */
@@ -111,7 +111,7 @@ body{
 
 .btn{
     display: inline-block;
-    background-color: #2091f9;
+    background-color: #149823;
     justify-self: center;
     color: #fff;
     text-decoration: none;
@@ -138,7 +138,7 @@ body{
 .about_main{
     padding-top: 80px;
     display: grid;
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     gap: 1em;
     overflow: hidden;
@@ -161,7 +161,7 @@ body{
 /* options */
 
 .options{
-    background-color: #e5e5f7;
+    background-color: #c6faca8c;
     background-image: linear-gradient(#444cf7 0.5px, transparente 0.5px), radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
     background-size: cover;
     background-position: 0 0, 10px 10px;
@@ -193,7 +193,7 @@ body{
 
 .testimony{
     background-color: #fff;
-
+    display: flex;
 }
 .testimony_container{
     display: grid;
@@ -232,7 +232,7 @@ body{
 }
 
 .testimony_course{
-    background-color: royalblue;
+    background-color: #4CAF50;
     color: #fff;
     display: inline-block;
     padding: 5px;
@@ -242,12 +242,18 @@ body{
     width: 90%;
     cursor: pointer;
 }
+.video{
+    width: 500px;
+    height: 500px;
+    margin-right: 40px;
+   
+}
 
 /* questions */
 
 .questions{
     text-align: center;
-    background-color: #e5e5f7;
+    background-color: #c6faca8c;
 }
 
 .questions_container{
@@ -260,7 +266,7 @@ body{
 .questions_padding{
     padding: 0;
     transition: padding .3s;
-    border: 1px solid #5454d4;
+    border: 1px solid #000000;
     border-radius: 6px;
 }
 
@@ -320,7 +326,7 @@ body{
 /* footer */
 
 .footer {
-    background-color: #1d293f;
+    background-color: #4CAF49;
 }
 
 .footer_title{

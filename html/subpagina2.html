@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramientas de Evaluación y Calculadoras Ecológicas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://source.unsplash.com/1600x900/?nature,environment') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #27ae60;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2ecc71;
+        }
+
+        p {
+            font-size: 1.2em;
+        }
+
+        #recommendations {
+            white-space: pre-line;
+            text-align: left;
+        }
+
+        .recommendation-title {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Herramientas de Evaluación y Calculadoras Ecológicas</h1>
+
+        <!-- Calculadora de Huella de Carbono -->
+        <section id="carbon-footprint-calculator">
+            <h2>Calculadora de Huella de Carbono</h2>
+            <form id="carbon-form">
+                <label for="vehicle">¿Tienes vehículo personal?</label>
+                <select id="vehicle" name="vehicle" onchange="toggleTransportInputs()">
+                    <option value="yes">Sí</option>
+                    <option value="no">No</option>
+                </select>
+
+                <div id="vehicle-questions" style="display: none;">
+                    <label for="car-type">¿Cuál es tu tipo de vehículo?</label>
+                    <select id="car-type" name="car-type">
+                        <option value="gasoline">Gasolina</option>
+                        <option value="diesel">Diésel</option>
+                        <option value="electric">Eléctrico</option>
+                    </select>
+
+                    <label for="car-time">Tiempo diario en coche:</label>
+                    <select id="car-time" name="car-time">
+                        <option value="0">0 minutos</option>
+                        <option value="15">15 minutos</option>
+                        <option value="30">30 minutos</option>
+                        <option value="45">45 minutos</option>
+                        <option value="60">1 hora</option>
+                        <option value="90">1.5 horas</option>
+                        <option value="120">2 horas</option>
+                    </select>
+                </div>
+
+                <div id="public-transport-questions">
+                    <label for="public-transport-time">Tiempo diario en transporte público:</label>
+                    <select id="public-transport-time" name="public-transport-time">
+                        <option value="0">0 minutos</option>
+                        <option value="15">15 minutos</option>
+                        <option value="30">30 minutos</option>
+                        <option value="45">45 minutos</option>
+                        <option value="60">1 hora</option>
+                        <option value="90">1.5 horas</option>
+                        <option value="120">2 horas</option>
+                    </select>
+
+                    <label for="public-transport-days">Días a la semana que usas transporte público:</label>
+                    <select id="public-transport-days" name="public-transport-days">
+                        <option value="0">0 días</option>
+                        <option value="1">1 día</option>
+                        <option value="2">2 días</option>
+                        <option value="3">3 días</option>
+                        <option value="4">4 días</option>
+                        <option value="5">5 días</option>
+                        <option value="6">6 días</option>
+                        <option value="7">7 días</option>
+                    </select>
+                </div>
+
+                <label for="electricity-bill">Pago mensual de electricidad:</label>
+                <select id="electricity-bill" name="electricity-bill">
+                    <option value="50">$50</option>
+                    <option value="75">$75</option>
+                    <option value="100">$100</option>
+                    <option value="125">$125</option>
+                    <option value="150">$150</option>
+                    <option value="200">$200</option>
+                </select>
+
+                <label for="gas-bill">Pago mensual de gas:</label>
+                <select id="gas-bill" name="gas-bill">
+                    <option value="20">$20</option>
+                    <option value="30">$30</option>
+                    <option value="40">$40</option>
+                    <option value="50">$50</option>
+                    <option value="60">$60</option>
+                </select>
+
+                <label for="water-bill">Pago mensual de agua:</label>
+                <select id="water-bill" name="water-bill">
+                    <option value="10">$10</option>
+                    <option value="20">$20</option>
+                    <option value="30">$30</option>
+                    <option value="40">$40</option>
+                    <option value="50">$50</option>
+                </select>
+
+                <label for="family-groceries">Gasto mensual en la canasta familiar:</label>
+                <select id="family-groceries" name="family-groceries">
+                    <option value="200">$200</option>
+                    <option value="300">$300</option>
+                    <option value="400">$400</option>
+                    <option value="500">$500</option>
+                    <option value="600">$600</option>
+                </select>
+
+                <label for="flights">Número de vuelos anuales:</label>
+                <select id="flights" name="flights">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+
+                <button type="button" onclick="calculateCarbonFootprint()">Calcular</button>
+            </form>
+            <p id="carbon-result"></p>
+        </section>
+
+        <!-- Evaluaciones de Sostenibilidad -->
+        <section id="sustainability-assessment">
+            <h2>Evaluaciones de Sostenibilidad</h2>
+            <form id="sustainability-form">
+                <label for="recycling">¿Reciclas regularmente?</label>
+                <select id="recycling" name="recycling">
+                    <option value="yes">Sí</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label for="water-saving">¿Utilizas métodos de ahorro de agua?</label>
+                <select id="water-saving" name="water-saving">
+                    <option value="yes">Sí</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label for="energy-saving">¿Utilizas bombillas de bajo consumo?</label>
+                <select id="energy-saving" name="energy-saving">
+                    <option value="yes">Sí</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label for="organic-food">¿Compras alimentos orgánicos?</label>
+                <select id="organic-food" name="organic-food">
+                    <option value="yes">Sí</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label for="renewable-energy">¿Utilizas energía renovable en tu hogar?</label>
+                <select id="renewable-energy" name="renewable-energy">
+                    <option value="yes">Sí</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label for="local-products">¿Compras productos locales?</label>
+                <select id="local-products" name="local-products">
+                    <option value="yes">Sí</option>
+                    <option value="no">No</option>
+                </select>
+
+                <button type="button" onclick="evaluateSustainability()">Evaluar</button>
+            </form>
+            <p id="sustainability-result"></p>
+            <p id="recommendations"></p>
+        </section>
+    </div>
+
+    <script>
+        function toggleTransportInputs() {
+            const vehicle = document.getElementById('vehicle').value;
+            const vehicleQuestions = document.getElementById('vehicle-questions');
+
+            if (vehicle === 'yes') {
+                vehicleQuestions.style.display = 'block';
+            } else {
+                vehicleQuestions.style.display = 'none';
+            }
+        }
+
+        function calculateCarbonFootprint() {
+            const carTime = parseFloat(document.getElementById('car-time').value);
+            const publicTransportTime = parseFloat(document.getElementById('public-transport-time').value);
+            const publicTransportDays = parseInt(document.getElementById('public-transport-days').value);
+            const electricityBill = parseFloat(document.getElementById('electricity-bill').value);
+            const gasBill = parseFloat(document.getElementById('gas-bill').value);
+            const waterBill = parseFloat(document.getElementById('water-bill').value);
+            const familyGroceries = parseFloat(document.getElementById('family-groceries').value);
+            const flights = parseInt(document.getElementById('flights').value);
+
+            const electricityEmissionFactor = 0.5; // kg CO2e per kWh
+            const gasEmissionFactor = 2.5; // kg CO2e per therm
+            const waterHeatingEmissionFactor = 1.5; // kg CO2e per gallon
+            const carEmissionFactor = 0.120; // kg CO2e per km
+            const publicTransportEmissionFactor = 0.060; // kg CO2e per km
+            const flightEmissionFactor = 250; // kg CO2e per flight
+            const familyGroceriesEmissionFactor = 0.005; // kg CO2e per dollar spent
+
+            // Average prices (in USD)
+            const electricityPrice = 0.12;
+            const gasPrice = 0.05;
+            const waterPrice = 0.005;
+
+            // Convert bills to consumption
+            const monthlyElectricityConsumption = electricityBill / electricityPrice;
+            const monthlyGasConsumption = gasBill / gasPrice;
+            const monthlyWaterConsumption = waterBill / waterPrice;
+
+            // Convert transport time to km (assuming average speeds)
+            const carKm = carTime * 60 / 50; // Average speed of 50 km/h
+            const publicTransportKm = publicTransportTime * 60 / 20 * publicTransportDays; // Average speed of 20 km/h
+
+            const monthlyCarbonFootprint = (monthlyElectricityConsumption * electricityEmissionFactor) + 
+                                           (monthlyGasConsumption * gasEmissionFactor) + 
+                                           (monthlyWaterConsumption * waterHeatingEmissionFactor) + 
+                                           (carKm * carEmissionFactor) + 
+                                           (publicTransportKm * publicTransportEmissionFactor) + 
+                                           (familyGroceries * familyGroceriesEmissionFactor);
+
+            const annualCarbonFootprint = (flights * flightEmissionFactor) + (monthlyCarbonFootprint * 12);
+
+            let impact = '';
+            if (annualCarbonFootprint < 100000) {
+                impact = 'bajo';
+            } else if (annualCarbonFootprint < 200000) {
+                impact = 'medio';
+            } else {
+                impact = 'alto';
+            }
+
+            let impactColor = '';
+            if (impact === 'bajo') {
+                impactColor = 'green';
+            } else if (impact === 'medio') {
+                impactColor = 'yellow';
+            } else {
+                impactColor = 'red';
+            }
+
+            document.getElementById('carbon-result').innerHTML = `Tu huella de carbono es de ${annualCarbonFootprint.toFixed(2)} kg CO2e al año. Impacto: <span style="color: ${impactColor};">${impact}</span>.`;
+        }
+
+        function evaluateSustainability() {
+            const recycling = document.getElementById('recycling').value;
+            const waterSaving = document.getElementById('water-saving').value;
+            const energySaving = document.getElementById('energy-saving').value;
+            const organicFood = document.getElementById('organic-food').value;
+            const renewableEnergy = document.getElementById('renewable-energy').value;
+            const localProducts = document.getElementById('local-products').value;
+
+            let score = 0;
+            if (recycling === 'yes') score++;
+            if (waterSaving === 'yes') score++;
+            if (energySaving === 'yes') score++;
+            if (organicFood === 'yes') score++;
+            if (renewableEnergy === 'yes') score++;
+            if (localProducts === 'yes') score++;
+
+            let assessmentMessage = '';
+            if (score === 6) {
+                assessmentMessage = '¡Excelente! Estás haciendo un gran trabajo para vivir de manera sostenible.';
+            } else if (score >= 4) {
+                assessmentMessage = 'Bien hecho, pero hay espacio para mejorar.';
+            } else {
+                assessmentMessage = 'Intenta adoptar más prácticas sostenibles.';
+            }
+
+            document.getElementById('sustainability-result').innerText = assessmentMessage;
+            provideRecommendations(recycling, waterSaving, energySaving, organicFood, renewableEnergy, localProducts);
+        }
+
+        function provideRecommendations(recycling, waterSaving, energySaving, organicFood, renewableEnergy, localProducts) {
+            let recommendations = 'Aquí tienes algunas recomendaciones para mejorar tu sostenibilidad:\n';
+
+            if (recycling === 'no') {
+                recommendations += '- <span class="recommendation-title">Comienza a reciclar regularmente</span>: El reciclaje reduce la necesidad de nuevas materias primas y disminuye la cantidad de residuos en los vertederos. Empieza con plásticos, papel y vidrio.\n';
+            }
+
+            if (waterSaving === 'no') {
+                recommendations += '- <span class="recommendation-title">Utiliza métodos de ahorro de agua</span>: Instala dispositivos de ahorro de agua como aireadores en los grifos y cabezales de ducha de bajo flujo. También, considera recoger agua de lluvia para el riego.\n';
+            }
+
+            if (energySaving === 'no') {
+                recommendations += '- <span class="recommendation-title">Cambia a bombillas de bajo consumo</span>: Las bombillas LED consumen menos energía y duran más que las incandescentes tradicionales. Además, aprovecha al máximo la luz natural durante el día.\n';
+            }
+
+            if (organicFood === 'no') {
+                recommendations += '- <span class="recommendation-title">Compra alimentos orgánicos</span>: Los alimentos orgánicos son cultivados sin el uso de pesticidas químicos y fertilizantes sintéticos, lo que es mejor para el medio ambiente y tu salud.\n';
+            }
+
+            if (renewableEnergy === 'no') {
+                recommendations += '- <span class="recommendation-title">Utiliza energía renovable</span>: Si es posible, instala paneles solares o contrata un suministro de energía que provenga de fuentes renovables como la solar o eólica.\n';
+            }
+
+            if (localProducts === 'no') {
+                recommendations += '- <span class="recommendation-title">Prefiere productos locales</span>: Comprar productos locales reduce la huella de carbono asociada al transporte de bienes y apoya a la economía de tu comunidad.\n';
+            }
+
+            document.getElementById('recommendations').innerHTML = recommendations;
+        }
+    </script>
+</body>
+</html>
