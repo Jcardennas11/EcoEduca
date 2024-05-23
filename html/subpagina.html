@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Herramienta de Metas Ambientales</title>
     <style>
-        /* Estilos CSS */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -45,16 +44,16 @@
             margin-bottom: 20px;
         }
 
-        section div.container {
+        .container {
             display: flex;
             margin-bottom: 10px;
         }
 
-        section div.container label {
+        .container label {
             margin-right: 10px;
         }
 
-        select {
+        select, input[type="number"], input[type="text"] {
             padding: 8px;
             border-radius: 5px;
             border: 1px solid #ccc;
@@ -91,11 +90,9 @@
         ul {
             padding-left: 20px;
         }
-        #nombre{
-            font-family: sans-serif; 
-            font-size: 18px; 
-            font-weight: 400; 
-            border-radius: 10px;
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -104,16 +101,51 @@
         <h1>Herramienta de Metas Ambientales</h1>
     </header>
     <main>
+        <section id="admin-settings">
+            <h2>Configuración de Metas Mensuales</h2>
+            <p>Establecer metas para el mes:</p>
+            <div class="container">
+                <label for="meta-botellas">Botellas plasticas:</label>
+                <input type="number" id="meta-botellas" min="0" value="0">
+            </div>
+            <div class="container">
+                <label for="meta-papel">Papel  (en kilos) :</label>
+                <input type="number" id="meta-papel" min="0" value="0">
+            </div>
+            <div class="container">
+                <label for="meta-cajas">Cajas de Cartón:</label>
+                <input type="number" id="meta-cajas" min="0" value="0">
+            </div>
+            <button id="establecer-metas-btn" onclick="establecerMetas()">Establecer Metas</button>
+        </section>
         <section id="goal-setting">
             <h2>Establecer Meta Ambiental</h2>
-            <p>¡Hola! Por favor, ingresa tu nombre:</p>
-            <input type="text" id="nombre" placeholder="Nombre">
-            <p>¡Tu nueva meta es reciclar 20 botellas, 10 kilos de papel y 10 cajas de cartón!</p>
+            <p>¡Hola! Por favor, ingresa tu información:</p>
+            <div class="container">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" placeholder="Tu Nombre">
+            </div>
+            <div class="container">
+                <label for="tipo-documento">Tipo de Documento:</label>
+                <select id="tipo-documento">
+                    <option value="Cedula de Ciudadanía">Cédula de Ciudadanía</option>
+                    <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                    <option value="DNI">DNI</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+            <div class="container">
+                <label for="documento">Número de Documento:</label>
+                <input type="text" id="documento" placeholder="Número de Documento">
+            </div>
+            <p>¡Tu nueva meta es reciclar las siguientes cantidades este mes!</p>
+            <ul id="metas-del-mes"></ul>
         </section>
         <section id="recycling">
             <h2>Registro de Objetos Reciclados</h2>
             <div class="container">
-                <label for="botellas">Botellas:</label>
+                <label for="botellas">Botellas plasticas:</label>
                 <select id="botellas">
                     <option value="0">0</option>
                     <option value="5">5</option>
@@ -123,7 +155,7 @@
                 </select>
             </div>
             <div class="container">
-                <label for="papel">Papel (en kilos):</label>
+                <label for="papel">Papel (en kilos) :</label>
                 <select id="papel">
                     <option value="0">0</option>
                     <option value="2.5">2.5</option>
@@ -155,216 +187,208 @@
             <h2>Descuentos Disponibles</h2>
             <ul id="descuentos-info"></ul>
         </section>
+        <section id="report">
+            <h2>Informe de Reciclaje</h2>
+            <button id="btn-generar-informe">Mostrar Informe</button>
+            <div id="informe-personas"></div>
+        </section>
     </main>
-
-
-
     <script>
-        // Función para inicializar el seguimiento de reciclaje para un nuevo usuario
-        function inicializarSeguimiento(nombreUsuario) {
-            const seguimiento = {
+        const usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
+
+        function inicializarSeguimiento(key) {
+            usuarios[key].seguimiento = {
                 botellas: 0,
                 papel: 0,
                 cajas: 0
             };
-            localStorage.setItem(nombreUsuario, JSON.stringify(seguimiento));
         }
 
-        // Función para obtener el seguimiento de reciclaje de un usuario
-        function obtenerSeguimiento(nombreUsuario) {
-            const seguimiento = localStorage.getItem(nombreUsuario);
-            return seguimiento ? JSON.parse(seguimiento) : null;
+        function obtenerSeguimiento(key) {
+            return usuarios[key].seguimiento;
         }
 
-        // Función para actualizar el seguimiento de reciclaje de un usuario
-        function actualizarSeguimiento(nombreUsuario, seguimiento) {
-            localStorage.setItem(nombreUsuario, JSON.stringify(seguimiento));
+        function actualizarSeguimiento(key, seguimiento) {
+            usuarios[key].seguimiento = seguimiento;
         }
 
-        // Función para mostrar la lista de objetos reciclados para un usuario dado
-        function mostrarListaReciclados(nombreUsuario) {
-            const seguimiento = obtenerSeguimiento(nombreUsuario);
+        function mostrarListaReciclados(key) {
+            const seguimiento = obtenerSeguimiento(key);
             if (seguimiento) {
                 const listaReciclados = document.getElementById("lista-objetos-reciclados");
-                listaReciclados.innerHTML = `<strong>${nombreUsuario} - Objetos Reciclados:</strong><br>`;
+                listaReciclados.innerHTML = `<strong>${usuarios[key].nombre} - Objetos Reciclados:</strong><br>`;
                 for (const tipoObjeto in seguimiento) {
                     listaReciclados.innerHTML += `${tipoObjeto}: ${seguimiento[tipoObjeto]}<br>`;
                 }
             }
         }
 
-        // Función para generar el ticket de descuento para un usuario dado
+        function puedenModificarMetas() {
+            const ahora = new Date();
+            const mesActual = ahora.getMonth();
+            const anioActual = ahora.getFullYear();
+            const primerDiaProximoMes = new Date(anioActual, mesActual + 1, 1);
+            const fechaLimite = new Date(primerDiaProximoMes);
+            fechaLimite.setDate(fechaLimite.getDate() - 5);
+            return ahora < fechaLimite;
+        }
+
+        function establecerMetas() {
+            const metaBotellas = parseInt(document.getElementById("meta-botellas").value);
+            const metaPapel = parseFloat(document.getElementById("meta-papel").value);
+            const metaCajas = parseInt(document.getElementById("meta-cajas").value);
+
+            const metasMensuales = {
+                botellas: metaBotellas,
+                papel: metaPapel,
+                cajas: metaCajas
+            };
+
+            localStorage.setItem("metasMensuales", JSON.stringify(metasMensuales));
+            mostrarMetasMensuales();
+            document.getElementById("admin-settings").classList.add("hidden");
+        }
+
+        function mostrarMetasMensuales() {
+            const metasMensuales = JSON.parse(localStorage.getItem("metasMensuales"));
+            const metasDelMes = document.getElementById("metas-del-mes");
+            metasDelMes.innerHTML = `
+                <li>Botellas: ${metasMensuales.botellas}</li>
+                <li>Papel: ${metasMensuales.papel} kg</li>
+                <li>Cajas de Cartón: ${metasMensuales.cajas}</li>
+            `;
+        }
+
         function generarTicketDescuento(nombreUsuario) {
             const seguimiento = obtenerSeguimiento(nombreUsuario);
-            if (seguimiento) {
-                const totalBotellas = seguimiento.botellas;
-                const totalCajas = seguimiento.cajas;
-                const totalPapel = seguimiento.papel;
+            const metasMensuales = JSON.parse(localStorage.getItem("metasMensuales"));
+            const ticketInfo = document.getElementById("ticket-info");
 
-                const ticketInfo = document.getElementById("ticket-info");
-                const nombreUsuarioSpan = document.getElementById("nombreUsuario");
-                nombreUsuarioSpan.textContent = nombreUsuario;
-
-                if (totalBotellas >= 100 && totalCajas >= 100) {
-                    ticketInfo.textContent = "¡Felicidades! Has alcanzado la gran meta de reciclar al menos 100 botellas y 100 cajas de cartón. ¡Eres elegible para un descuento del 25% en nuestra tienda!";
-                } else if (totalBotellas >= 70 && totalCajas >= 70 && totalPapel >= 15) {
-                    ticketInfo.textContent = "¡Felicidades! Has alcanzado las metas de reciclar al menos 70 botellas, 70 cajas de cartón y 15 kilos de papel. ¡Eres elegible para un descuento del 20% en nuestra tienda!";
-                } else if (totalBotellas >= 40 && totalCajas >= 40 && totalPapel >= 10) {
-                    ticketInfo.textContent = "¡Felicidades! Has alcanzado las metas de reciclar al menos 40 botellas, 40 cajas de cartón y 10 kilos de papel. ¡Eres elegible para un descuento del 15% en nuestra tienda!";
-                } else if (totalBotellas >= 25 && totalCajas >= 25) {
-                    ticketInfo.textContent = "¡Felicidades! Has alcanzado las metas de reciclar al menos 25 botellas y 25 cajas de cartón. ¡Eres elegible para un descuento del 10% en nuestra tienda!";
-                } else {
-                    ticketInfo.textContent = "Sigue reciclando para obtener tu descuento.";
-                }
+            if (seguimiento.botellas >= metasMensuales.botellas && seguimiento.papel >= metasMensuales.papel && seguimiento.cajas >= metasMensuales.cajas) {
+                ticketInfo.innerHTML = "¡Felicidades! Has alcanzado tus metas de reciclaje y has ganado un 20% de descuento.";
+            } else {
+                ticketInfo.innerHTML = "Aún no has alcanzado tus metas de reciclaje para este mes.";
             }
         }
 
-        // Función para mostrar la información de los descuentos disponibles
         function mostrarDescuentosDisponibles() {
             const descuentosInfo = document.getElementById("descuentos-info");
-            const descuentosDisponibles = [
-                "10% de descuento en nuestra tienda por reciclar al menos 25 botellas y 25 cajas de carton",
-                "15% de descuento en nuestra tienda por reciclar al menos 40 botellas, 40 cajas de carton y 10 kilos papel",
-                "20% de descuento en nuestra tienda por reciclar al menos 70 botellas, 70 cajas de carton y 15 kilos de papel",
-                "25% de descuento en nuestra tienda por reciclar al menos 100 botellas y 100 cajas de carton"
-            ];
-            descuentosDisponibles.forEach(descuento => {
-                const li = document.createElement("li");
-                li.textContent = descuento;
-                descuentosInfo.appendChild(li);
-            });
+            descuentosInfo.innerHTML = `
+                <li>20% de descuento en la tienda al alcanzar las metas de reciclaje.</li>
+            `;
         }
 
-        // Función para registrar objetos reciclados
         function registrarObjetos() {
-            const nombreUsuario = document.getElementById("nombre").value.trim();
-            if (!nombreUsuario) {
+            const nombreUsuario = document.getElementById("nombre").value;
+            const tipoDocumento = document.getElementById("tipo-documento").value;
+            const documento = document.getElementById("documento").value;
+            const botellas = parseInt(document.getElementById("botellas").value);
+            const papel = parseFloat(document.getElementById("papel").value);
+            const cajas = parseInt(document.getElementById("cajas").value);
+
+            if (!nombreUsuario || !tipoDocumento || !documento) {
                 
                 Swal.fire({
                  icon: "info",
-                 text: "Por favor, ingresa tu nombre."
+                 text: "Por favor, ingresa todos tus datos."
                  
                });
                 return;
             }
 
-            let seguimiento = obtenerSeguimiento(nombreUsuario);
-            if (!seguimiento) {
-                inicializarSeguimiento(nombreUsuario);
-                seguimiento = obtenerSeguimiento(nombreUsuario);
+            const nombreCompletoUsuario = `${nombreUsuario}_${tipoDocumento}_${documento}`;
+            if (!usuarios[nombreCompletoUsuario]) {
+                usuarios[nombreCompletoUsuario] = {
+                    nombre: nombreUsuario,
+                    tipoDocumento: tipoDocumento,
+                    documento: documento,
+                    seguimiento: {
+                        botellas: 0,
+                        papel: 0,
+                        cajas: 0
+                    }
+                };
             }
 
-            const botellas = parseInt(document.getElementById("botellas").value);
-            const papel = parseFloat(document.getElementById("papel").value);
-            const cajas = parseInt(document.getElementById("cajas").value);
+            usuarios[nombreCompletoUsuario].seguimiento.botellas += botellas;
+            usuarios[nombreCompletoUsuario].seguimiento.papel += papel;
+            usuarios[nombreCompletoUsuario].seguimiento.cajas += cajas;
 
-            seguimiento.botellas += botellas;
-            seguimiento.papel += papel;
-            seguimiento.cajas += cajas;
+            localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
-            actualizarSeguimiento(nombreUsuario, seguimiento);
-
-            mostrarListaReciclados(nombreUsuario);
-            generarTicketDescuento(nombreUsuario);
+            mostrarListaReciclados(nombreCompletoUsuario);
+            generarTicketDescuento(nombreCompletoUsuario);
         }
 
-        // Función para retirar un descuento y restar los objetos reciclados correspondientes
         function retirarDescuento() {
-            const descuentoSeleccionado = confirm("¿Estás seguro que deseas retirar este descuento?");
-            if (descuentoSeleccionado) {
-                const ticketInfo = document.getElementById("ticket-info").textContent.trim().toLowerCase();
-                const nombreUsuario = document.getElementById("nombreUsuario").textContent.trim();
-                let seguimiento = obtenerSeguimiento(nombreUsuario);
+            const nombreUsuario = document.getElementById("nombre").value;
+            const tipoDocumento = document.getElementById("tipo-documento").value;
+            const documento = document.getElementById("documento").value;
+            const nombreCompletoUsuario = `${nombreUsuario}_${tipoDocumento}_${documento}`;
+            const seguimiento = obtenerSeguimiento(nombreCompletoUsuario);
+            const metasMensuales = JSON.parse(localStorage.getItem("metasMensuales"));
+            const ticketInfo = document.getElementById("ticket-info");
 
-                if (seguimiento) {
-                    const descuentos = [
-                        "¡felicidades! has alcanzado la gran meta de reciclar al menos 100 botellas y 100 cajas de cartón. ¡eres elegible para un descuento del 25% en nuestra tienda!",
-                        "¡felicidades! has alcanzado las metas de reciclar al menos 70 botellas, 70 cajas de cartón y 15 kilos de papel. ¡eres elegible para un descuento del 20% en nuestra tienda!",
-                        "¡felicidades! has alcanzado las metas de reciclar al menos 40 botellas, 40 cajas de cartón y 10 kilos de papel. ¡eres elegible para un descuento del 15% en nuestra tienda!",
-                        "¡felicidades! has alcanzado las metas de reciclar al menos 25 botellas y 25 cajas de cartón. ¡eres elegible para un descuento del 10% en nuestra tienda!"
-                    ];
-
-                    const index = descuentos.findIndex(desc => desc === ticketInfo);
-
-                    if (index !== -1) {
-                        switch (index) {
-                            case 0:
-                                if (seguimiento.botellas >= 100 && seguimiento.cajas >= 100) {
-                                    seguimiento.botellas -= 100;
-                                    seguimiento.cajas -= 100;
-                                } else {
-                                    alert("No tienes suficientes botellas y/o cajas de cartón para retirar este descuento.");
-                                    return;
-                                }
-                                break;
-                            case 1:
-                                if (seguimiento.botellas >= 70 && seguimiento.cajas >= 70 && seguimiento.papel >= 15) {
-                                    seguimiento.botellas -= 70;
-                                    seguimiento.cajas -= 70;
-                                    seguimiento.papel -= 15;
-                                } else {
-                                    alert("No tienes suficientes botellas, cajas de cartón y/o papel para retirar este descuento.");
-                                    return;
-                                }
-                                break;
-                            case 2:
-                                if (seguimiento.botellas >= 40 && seguimiento.cajas >= 40 && seguimiento.papel >= 10) {
-                                    seguimiento.botellas -= 40;
-                                    seguimiento.cajas -= 40;
-                                    seguimiento.papel -= 10;
-                                } else {
-                                    alert("No tienes suficientes botellas, cajas de cartón y/o papel para retirar este descuento.");
-                                    return;
-                                }
-                                break;
-                            case 3:
-                                if (seguimiento.botellas >= 25 && seguimiento.cajas >= 25) {
-                                    seguimiento.botellas -= 25;
-                                    seguimiento.cajas -= 25;
-                                } else {
-                                    alert("No tienes suficientes botellas y/o cajas de cartón para retirar este descuento.");
-                                    return;
-                                }
-                                break;
-                        }
-
-                        // Actualizar seguimiento y mostrar la lista actualizada
-                        actualizarSeguimiento(nombreUsuario, seguimiento);
-                        mostrarListaReciclados(nombreUsuario);
-
-                        // Mostrar mensaje de éxito
-                       
-                        Swal.fire({
+            if (seguimiento.botellas >= metasMensuales.botellas && seguimiento.papel >= metasMensuales.papel && seguimiento.cajas >= metasMensuales.cajas) {
+                Swal.fire({
                         position: "top",
                         icon: "success",
                         title: "Descuento retirado con éxito. Los objetos reciclados han sido actualizados.",
                         showConfirmButton: false,
                         timer: 5000
                          });
-                        // Limpiar el ticket de descuento después de retirar el descuento
-                        document.getElementById("ticket-info").textContent = "Sigue reciclando para obtener tu descuento.";
-                    } else {
-                        Swal.fire({
+                ticketInfo.innerHTML = "";
+                seguimiento.botellas -= metasMensuales.botellas;
+                seguimiento.papel -= metasMensuales.papel;
+                seguimiento.cajas -= metasMensuales.cajas;
+                actualizarSeguimiento(nombreCompletoUsuario, seguimiento);
+                mostrarListaReciclados(nombreCompletoUsuario);
+            } else {
+                
+                Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: "Descuento no reconocido",
+                        text: "No has alcanzado tus metas para retirar el descuento.",
   
                      });
-                    }
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "No hay seguimiento disponible para este usuario.",
-  
-                     });
-                }
             }
         }
 
-        // Mostrar descuentos disponibles al cargar la página
-        mostrarDescuentosDisponibles();
+        function generarInformePersonas() {
+            const informe = document.getElementById("informe-personas");
+            informe.innerHTML = "<h3>Informe de Personas Registradas:</h3>";
+
+            const usuariosOrdenados = Object.values(usuarios).sort((a, b) => {
+                const totalA = a.seguimiento.botellas + a.seguimiento.papel + a.seguimiento.cajas;
+                const totalB = b.seguimiento.botellas + b.seguimiento.papel + b.seguimiento.cajas;
+                return totalB - totalA;
+            });
+
+            usuariosOrdenados.forEach((usuario, index) => {
+                informe.innerHTML += `
+                    <strong>${index + 1}. Nombre:</strong> ${usuario.nombre}<br>
+                    <strong>Tipo de Documento:</strong> ${usuario.tipoDocumento}<br>
+                    <strong>Número de Documento:</strong> ${usuario.documento}<br>
+                    <strong>Seguimiento de Reciclaje:</strong><br>
+                    Botellas: ${usuario.seguimiento.botellas}<br>
+                    Papel: ${usuario.seguimiento.papel}<br>
+                    Cajas de Cartón: ${usuario.seguimiento.cajas}<br><br>
+                `;
+            });
+        }
+
+        document.getElementById("btn-generar-informe").addEventListener("click", generarInformePersonas);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            mostrarMetasMensuales();
+            mostrarDescuentosDisponibles();
+            generarInformePersonas();
+
+            if (localStorage.getItem("metasMensuales") && !puedenModificarMetas()) {
+                document.getElementById("admin-settings").classList.add("hidden");
+            }
+        });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
