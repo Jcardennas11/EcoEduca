@@ -9,23 +9,36 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/firebase.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- front page -->
-    <header class="person">
+    <header class="person" id="inicio">
         <nav class="nav container">
             <ul class="nav_link nav_link_menu">
                 <li class="nav_items">
-                    <a href="#" class="nav_links">Inicio</a>
+                    <a href="#inicio" class="nav_links modern-nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Inicio</span>
+                    </a>
                 </li>
                 <li class="nav_items">
-                    <a href="#" class="nav_links">Acerca de</a>
+                    <a href="#acerca-de" class="nav_links modern-nav-link">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Acerca de</span>
+                    </a>
                 </li>
                 <li class="nav_items">
-                    <a href="#" class="nav_links">Contacto</a>
+                    <a href="#contacto" class="nav_links modern-nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Contacto</span>
+                    </a>
                 </li>
                 <li class="nav_items">
-                    <a href="#" class="nav_links">Redes Sociales</a>
+                    <a href="#redes-sociales" class="nav_links modern-nav-link">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Redes Sociales</span>
+                    </a>
                 </li>
                 
                 <!-- Enlaces para usuarios no autenticados -->
@@ -63,37 +76,54 @@
         <section class="person_container container">
             <h1 class="person_title">Conciencia y Transformación Ambiental</h1>
             <p class="person_paragraph">#Educandoalcatatumbo</p>
-            <a href="html/subpagina.html" class="btn">Haz Click</a>
+            <a href="html/subpagina.html" class="btn hero-btn">
+    <i class="fas fa-arrow-right"></i>
+    <span>Comenzar Ahora</span>
+</a>
          
         </section>
     </header>
 
     <!-- options -->
     <main>
-        <section class="container about">
+        <section class="container about" id="acerca-de">
             <h2 class="subtitle">¿Qué es la Educación Ambiental?</h2>
             <p class="about_paragraph">Es un proceso que busca generar conciencia en las personas del catatumbo sobre la importancia de cuidar y preservar nuestro entorno natural.</p>
 
             <div class="about_main">
-                <article class="about_icons">
-                    <img src="icons/menu.svg" alt="Icon" class="about_icon">
+                <article class="about_card">
+                    <div class="card-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
                     <h3 class="about_title">¿Qué es?</h3>
                     <p class="about_paragraph">Es un campo pedagógico que busca generar procesos para la construcción de saberes, valores y prácticas ambientales en la region.</p>
                 </article>
-                <article class="about_icons">
-                    <img src="icons/menu.svg" alt="Icon" class="about_icon">
+                <article class="about_card">
+                    <div class="card-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
                     <h3 class="about_title">Importancia</h3>
                     <p class="about_paragraph">La educación ambiental es crucial para abordar los desafíos ambientales actuales y futuros de la region.</p>
                 </article>
-                <article class="about_icons">
-                    <img src="icons/menu.svg" alt="Icon" class="about_icon">
+                <article class="about_card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
                     <h3 class="about_title">Actividades</h3>
                     <p class="about_paragraph">Existen muchas actividades que pueden promover la educación ambiental en el catatumbo</p>
                 </article>
-                <article class="about_icons">
-                    <a href="html/subpagina2.html" class=""><img src="icons/menu.svg" alt="Icon" class="about_icon"></a>
-                    <h3 class="about_title">Herramientas de Evaluación</h3>
-                    <p class="about_paragraph">Este es un campo en cual podras realizar una evaluacion propia acerca de las prácticas ambientales que tienes en tu hogar.</p>
+                <article class="about_card interactive-card">
+                    <a href="html/subpagina2.html" class="card-link">
+                        <div class="card-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h3 class="about_title">Herramientas de Evaluación</h3>
+                        <p class="about_paragraph">Este es un campo en cual podras realizar una evaluacion propia acerca de las prácticas ambientales que tienes en tu hogar.</p>
+                        <div class="card-action">
+                            <span>Explorar herramientas</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
                 </article>
             </div>
         </section>
@@ -129,10 +159,10 @@
 
             <section class= "testimony_body" data-id="2">
                 <div class="testimony_texts">
-                    <h2 class="subtitle">Mi nombre es Andrea Carvajal
-                        <span class="testimony_course">estudiante de la ufpso</span>
+                    <h2 class="subtitle">Dra. María González
+                        <span class="testimony_course">Especialista en Educación Ambiental</span>
                 </h2>
-                    <p class="testimony_review">Johan Cárdenas sobresale como coach, demostrando una maestría única en potenciar el rendimiento y la confianza. Su compromiso y perspicacia lo convierten en un líder destacado en el mundo del coaching.</p>
+                    <p class="testimony_review">La educación ambiental es la herramienta más poderosa que tenemos para transformar nuestra relación con el planeta. A través de programas integrales, estamos formando ciudadanos conscientes que liderarán el cambio hacia un futuro sostenible en nuestras comunidades.</p>
                 </div>
                 <figure class="testimony_picture">
                     <img src="images/face2.jpg" alt="Foto usuario" class="testimony_img">
@@ -141,10 +171,10 @@
 
             <section class= "testimony_body" data-id="3">
                 <div class="testimony_texts">
-                    <h2 class="subtitle">Mi nombre es Andrey Hernandez
-                        <span class="testimony_course">estudiante de la ufpso</span>
+                    <h2 class="subtitle">Ing. Carlos Rodríguez
+                        <span class="testimony_course">Consultor en Sostenibilidad</span>
                 </h2>
-                    <p class="testimony_review">Johan Cárdenas, coach excepcional, destaca por su enfoque estratégico y motivacional. Su capacidad para desbloquear el potencial de los demás y fomentar el crecimiento personal lo distingue como líder inspirador.</p>
+                    <p class="testimony_review">Implementar prácticas ambientales sostenibles no solo protege nuestro entorno, sino que también genera oportunidades económicas. Las empresas que adoptan la sostenibilidad como pilar fundamental demuestran que el desarrollo y la conservación pueden ir de la mano.</p>
                 </div>
                 <figure class="testimony_picture">
                     <img src="images/face3.jpg" alt="Foto usuario" class="testimony_img">
@@ -153,10 +183,10 @@
 
             <section class= "testimony_body" data-id="4">
                 <div class="testimony_texts">
-                    <h2 class="subtitle">Mi nombre es Wilder Duarte
-                        <span class="testimony_course">docente de la ufpso</span>
+                    <h2 class="subtitle">Dr. Luis Martínez
+                        <span class="testimony_course">Investigador en Cambio Climático</span>
                 </h2>
-                    <p class="testimony_review">Johan Cárdenas, coach de renombre, se distingue por su habilidad para catalizar el éxito. Su enfoque perspicaz y orientado al crecimiento impulsa el rendimiento y el bienestar de manera excepcional.</p>
+                    <p class="testimony_review">La investigación científica nos demuestra urgentemente la necesidad de actuar contra el cambio climático. Cada estudio nos acerca a soluciones innovadoras que pueden marcar la diferencia en la preservación de nuestros ecosistemas para las futuras generaciones.</p>
                 </div>
                 <figure class="testimony_picture">
                     <img src="images/face4.jpg" alt="Foto usuario" class="testimony_img">
@@ -173,51 +203,54 @@
     
 
     <!-- questions -->
-    <section class="questions">
+    <section class="questions" id="contacto">
         <div class="container">
             <h2 class="subtitle">Aun tienes alguna duda?</h2>
             <p class="questions_paragraph">Aca encuentras algunas preguntas con respuesta para calmar tus dudas</p>
 
-            <section class="questions_container">
-                <article class="questions_padding">
-                    <div class="questions_answer">
-                        <h3 class="questions_title">¿Por qué es importante la educación ambiental?
-                        <span class="questions_arrow">
-                            <img src="icons/arrow.svg" alt="" class="questions_img">
-                        </span>
+            <section class="faq-container">
+                <article class="faq-item">
+                    <div class="faq-question">
+                        <h3 class="faq-title">
+                            <i class="fas fa-leaf"></i>
+                            ¿Por qué es importante la educación ambiental?
                         </h3>
-                            <p class="questions_show">
-                                La educación ambiental es crucial porque aumenta la conciencia sobre los problemas ambientales, como la deforestación, la contaminación y el cambio climático. Ayuda a las personas a comprender la importancia de conservar los recursos naturales y adoptar comportamientos más sostenibles para proteger el medio ambiente y las generaciones futuras.
-                            </p>
-                        
+                        <button class="faq-toggle" aria-label="Toggle answer">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="faq-answer">
+                        <p>La educación ambiental es fundamental para fomentar una comprensión profunda de las interconexiones entre los sistemas naturales y las actividades humanas. Capacita a individuos y comunidades para desarrollar una conciencia crítica sobre los desafíos ambientales globales y locales, promoviendo la adopción de prácticas sostenibles y la participación activa en la construcción de un futuro más equitativo y ecológicamente responsable.</p>
                     </div>
                 </article>
 
-                <article class="questions_padding">
-                    <div class="questions_answer">
-                        <h3 class="questions_title">¿Qué temas abarcan la educación ambiental?
-                        <span class="questions_arrow">
-                            <img src="icons/arrow.svg" alt="" class="questions_img">
-                        </span>
+                <article class="faq-item">
+                    <div class="faq-question">
+                        <h3 class="faq-title">
+                            <i class="fas fa-globe-americas"></i>
+                            ¿Qué temas abarcan la educación ambiental?
                         </h3>
-                            <p class="questions_show">
-                                La educación ambiental abarca una amplia gama de temas, que van desde la conservación de la biodiversidad hasta la gestión de residuos y la energía renovable. Incluye también cuestiones relacionadas con el agua, el aire, el suelo, la agricultura sostenible, la justicia ambiental y la ética ambiental, entre otras.
-                            </p>
-                        
+                        <button class="faq-toggle" aria-label="Toggle answer">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="faq-answer">
+                        <p>La educación ambiental abarca una amplia gama de temas, que van desde la conservación de la biodiversidad hasta la gestión de residuos y la energía renovable. Incluye también cuestiones relacionadas con el agua, el aire, el suelo, la agricultura sostenible, la justicia ambiental y la ética ambiental, entre otras.</p>
                     </div>
                 </article>
 
-                <article class="questions_padding">
-                    <div class="questions_answer">
-                        <h3 class="questions_title">¿Cómo puede contribuir la educación ambiental a la acción comunitaria?
-                        <span class="questions_arrow">
-                            <img src="icons/arrow.svg" alt="" class="questions_img">
-                        </span>
+                <article class="faq-item">
+                    <div class="faq-question">
+                        <h3 class="faq-title">
+                            <i class="fas fa-users"></i>
+                            ¿Cómo puede contribuir la educación ambiental a la acción comunitaria?
                         </h3>
-                            <p class="questions_show">
-                                La educación ambiental puede empoderar a las comunidades al proporcionarles conocimientos y habilidades para abordar los desafíos ambientales locales. Al educar a los ciudadanos sobre las causas y consecuencias de los problemas ambientales, pueden tomar medidas colectivas para conservar los recursos naturales, promover la sustentabilidad y participar en proyectos de mejora del medio ambiente en sus áreas locales.
-                            </p>
-                        
+                        <button class="faq-toggle" aria-label="Toggle answer">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="faq-answer">
+                        <p>La educación ambiental puede empoderar a las comunidades al proporcionarles conocimientos y habilidades para abordar los desafíos ambientales locales. Al educar a los ciudadanos sobre las causas y consecuencias de los problemas ambientales, pueden tomar medidas colectivas para conservar los recursos naturales, promover la sustentabilidad y participar en proyectos de mejora del medio ambiente en sus áreas locales.</p>
                     </div>
                 </article>
             </section>
@@ -227,50 +260,94 @@
     </section>
     </main>
 
-    <footer class="footer">
-        <section class="footer_container container">
-            <nav class="nav nav--footer">
-                <h2 class="footer_title">Johan Cardenas</h2>
-                <h2 class="footer_title">Duvan Carvajalino</h2>
-                
-                <ul class="nav_link nav_link--footer">
-                    <li class="nav_items">
-                        <a href="#" class="nav_links">Términos</a>
-                    </li>
-                    <li class="nav_items">
-                        <a href="#" class="nav_links">Privacidad
-                        </a>
-                    </li>
-                    <li class="nav_items">
-                        <a href="#" class="nav_links">Seguridad
-                        </a>
-                    </li>
-                    <li class="nav_items">
-                        <a href="#" class="nav_links">Documentos</a>
-                    </li>
-                </ul>
-            </nav>
-            <form class="footer_form">
-                <h2 class="footer_info">Suscribete</h2>
-                <div class="footer_inputs">
-                    <input type="email" class="footer_input" placeholder="Escribe tu E-Mail">
-                    <input type="submit" value="Contáctanos" class="footer_submit">
+    <footer class="footer" id="redes-sociales">
+        <div class="footer_particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="footer_container container">
+            <div class="footer_content">
+                <div class="footer_brand">
+                    <div class="footer_logo">
+                        <h2 class="footer_title">EcoEduca</h2>
+                        <p class="footer_subtitle">Conciencia y Transformación Ambiental</p>
+                    </div>
+                    <div class="footer_authors">
+                        <span class="footer_author">Johan Cardenas</span>
+                        <span class="footer_separator">•</span>
+                        <span class="footer_author">Duvan Carvajalino</span>
+                    </div>
                 </div>
-            </form>
-        </section>
-        <section class="footer_copy container">
-            <div class="footer_social">
-                <a href="https://facebook.com" target="_blank" class="footer_icon"><img src="icons/facebook.svg" alt="Icon Facebook" class="footer_img"></a>
-                <a href="https://www.instagram.com/" target="_blank" class="footer_icon"><img src="icons/instagram.svg" alt="Icon Instagram" class="footer_img"></a>
-                <a href="https://twitter.com/?lang=es" target="_blank" class="footer_icon"><img src="icons/twitter.svg" alt="Icon Twitter" class="footer_img"></a>
+                
+                <div class="footer_sections">
+                    <div class="footer_section">
+                        <h3 class="footer_section_title">Enlaces Rápidos</h3>
+                        <ul class="footer_links">
+                            <li><a href="#" class="footer_link">Términos y Condiciones</a></li>
+                            <li><a href="#" class="footer_link">Política de Privacidad</a></li>
+                            <li><a href="#" class="footer_link">Seguridad</a></li>
+                            <li><a href="#" class="footer_link">Documentos</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer_section">
+                        <h3 class="footer_section_title">Newsletter</h3>
+                        <p class="footer_description">Suscríbete para recibir las últimas noticias sobre educación ambiental</p>
+                        <form class="footer_form">
+                            <div class="footer_inputs">
+                                <input type="email" class="footer_input" placeholder="Tu correo electrónico" required>
+                                <button type="submit" class="footer_submit">
+                                    <span>Suscribirse</span>
+                                    <svg class="footer_submit_icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="m22 2-7 20-4-9-9-4Z"/>
+                                        <path d="M22 2 11 13"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <h3 class="footer_copyright">Derechos reservados &copy; Johan Cardenas - Duvan Carvajalino <h3>
-        </section>
+            
+            <div class="footer_bottom">
+                <div class="footer_social">
+                    <h4 class="footer_social_title">Síguenos</h4>
+                    <div class="footer_social_links">
+                        <a href="https://facebook.com" target="_blank" class="footer_social_link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank" class="footer_social_link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.405a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com/?lang=es" target="_blank" class="footer_social_link" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer_copyright">
+                    <p>&copy; 2024 EcoEduca. Todos los derechos reservados. Desarrollado por Johan Cardenas & Duvan Carvajalino</p>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/firebase-user.js"></script>
     <script src="js/slider.js"></script>
     <script src="js/questions.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/faq.js"></script>
 </body>
 </html>

@@ -4,237 +4,670 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Herramientas de Evaluación y Calculadoras Ecológicas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: url('https://source.unsplash.com/1600x900/?nature,environment') no-repeat center center fixed;
-            background-size: cover;
-            color: #333;
+        :root {
+            --primary-color: #2ecc71;
+            --primary-dark: #27ae60;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --warning-color: #f39c12;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #6c757d;
+            --border-color: #e9ecef;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.16);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.02)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.02)"/><circle cx="90" cy="30" r="0.5" fill="rgba(255,255,255,0.02)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .container {
-            max-width: 800px;
-            margin: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
             text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
         }
 
-        h1, h2 {
-            color: #2c3e50;
-            text-align: center;
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        form {
-            margin-bottom: 20px;
-            text-align: left;
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        label {
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            animation: fadeInUp 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .tool-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .tool-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .tool-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        .tool-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
             display: block;
-            margin: 10px 0 5px;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.95rem;
         }
 
-        input, select, button {
+        .form-control {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1em;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: var(--transition);
+            background: var(--white);
+            color: var(--text-primary);
         }
 
-        button {
-            background-color: #27ae60;
-            color: #fff;
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+        }
+
+        .form-control:hover {
+            border-color: rgba(46, 204, 113, 0.3);
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
             border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
         }
 
-        button:hover {
-            background-color: #2ecc71;
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
         }
 
-        p {
-            font-size: 1.2em;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
         }
 
-        #recommendations {
-            white-space: pre-line;
-            text-align: left;
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .result-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .result-section.has-results {
+            background: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .result-content {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .impact-low { color: var(--success-color); }
+        .impact-medium { color: var(--warning-color); }
+        .impact-high { color: var(--danger-color); }
+
+        .recommendations {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .recommendations h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .recommendations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: var(--white);
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .recommendations li:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-sm);
         }
 
         .recommendation-title {
-            color: red;
-            font-weight: bold;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .loading-spinner {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.05);
+            }
+        }
+
+        .form-group.focused .form-control {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+        }
+
+        .tool-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        .hidden-field {
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .hidden-field.show {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 4px;
+            transition: width 0.6s ease-out;
+            width: 0%;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .tool-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .tool-card {
+                padding: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Herramientas de Evaluación y Calculadoras Ecológicas</h1>
+        <div class="header">
+            <h1>Herramientas de Evaluación y Calculadoras Ecológicas</h1>
+            <p>Evalúa tu impacto ambiental y descubre cómo puedes contribuir a un planeta más sostenible</p>
+        </div>
 
-        <!-- Calculadora de Huella de Carbono -->
-        <section id="carbon-footprint-calculator">
-            <h2>Calculadora de Huella de Carbono</h2>
-            <form id="carbon-form">
-                <label for="vehicle">¿Tienes vehículo personal?</label>
-                <select id="vehicle" name="vehicle" onchange="toggleTransportInputs()">
-                    <option value="yes">Sí</option>
-                    <option value="no">No</option>
-                </select>
-
-                <div id="vehicle-questions" style="display: none;">
-                    <label for="car-type">¿Cuál es tu tipo de vehículo?</label>
-                    <select id="car-type" name="car-type">
-                        <option value="gasoline">Gasolina</option>
-                        <option value="diesel">Diésel</option>
-                        <option value="electric">Eléctrico</option>
-                    </select>
-
-                    <label for="car-time">Tiempo diario en coche:</label>
-                    <select id="car-time" name="car-time">
-                        <option value="0">0 minutos</option>
-                        <option value="15">15 minutos</option>
-                        <option value="30">30 minutos</option>
-                        <option value="45">45 minutos</option>
-                        <option value="60">1 hora</option>
-                        <option value="90">1.5 horas</option>
-                        <option value="120">2 horas</option>
-                    </select>
+        <div class="tools-grid">
+            <!-- Calculadora de Huella de Carbono -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h2 class="tool-title">Calculadora de Huella de Carbono</h2>
                 </div>
+                
+                <form id="carbon-form">
+                    <div class="form-group">
+                        <label for="vehicle" class="form-label">¿Tienes vehículo personal?</label>
+                        <select id="vehicle" name="vehicle" class="form-control" onchange="toggleTransportInputs()">
+                            <option value="yes">Sí</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
 
-                <div id="public-transport-questions">
-                    <label for="public-transport-time">Tiempo diario en transporte público:</label>
-                    <select id="public-transport-time" name="public-transport-time">
-                        <option value="0">0 minutos</option>
-                        <option value="15">15 minutos</option>
-                        <option value="30">30 minutos</option>
-                        <option value="45">45 minutos</option>
-                        <option value="60">1 hora</option>
-                        <option value="90">1.5 horas</option>
-                        <option value="120">2 horas</option>
-                    </select>
+                    <div id="vehicle-questions" class="hidden-field">
+                        <div class="form-group">
+                            <label for="car-type" class="form-label">¿Cuál es tu tipo de vehículo?</label>
+                            <select id="car-type" name="car-type" class="form-control">
+                                <option value="gasoline">Gasolina</option>
+                                <option value="diesel">Diésel</option>
+                                <option value="electric">Eléctrico</option>
+                            </select>
+                        </div>
 
-                    <label for="public-transport-days">Días a la semana que usas transporte público:</label>
-                    <select id="public-transport-days" name="public-transport-days">
-                        <option value="0">0 días</option>
-                        <option value="1">1 día</option>
-                        <option value="2">2 días</option>
-                        <option value="3">3 días</option>
-                        <option value="4">4 días</option>
-                        <option value="5">5 días</option>
-                        <option value="6">6 días</option>
-                        <option value="7">7 días</option>
-                    </select>
+                        <div class="form-group">
+                            <label for="car-time" class="form-label">Tiempo diario en coche:</label>
+                            <select id="car-time" name="car-time" class="form-control">
+                                <option value="0">0 minutos</option>
+                                <option value="15">15 minutos</option>
+                                <option value="30">30 minutos</option>
+                                <option value="45">45 minutos</option>
+                                <option value="60">1 hora</option>
+                                <option value="90">1.5 horas</option>
+                                <option value="120">2 horas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="public-transport-time" class="form-label">Tiempo diario en transporte público:</label>
+                        <select id="public-transport-time" name="public-transport-time" class="form-control">
+                            <option value="0">0 minutos</option>
+                            <option value="15">15 minutos</option>
+                            <option value="30">30 minutos</option>
+                            <option value="45">45 minutos</option>
+                            <option value="60">1 hora</option>
+                            <option value="90">1.5 horas</option>
+                            <option value="120">2 horas</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="public-transport-days" class="form-label">Días a la semana que usas transporte público:</label>
+                        <select id="public-transport-days" name="public-transport-days" class="form-control">
+                            <option value="0">0 días</option>
+                            <option value="1">1 día</option>
+                            <option value="2">2 días</option>
+                            <option value="3">3 días</option>
+                            <option value="4">4 días</option>
+                            <option value="5">5 días</option>
+                            <option value="6">6 días</option>
+                            <option value="7">7 días</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="electricity-bill" class="form-label">Pago mensual de electricidad:</label>
+                        <select id="electricity-bill" name="electricity-bill" class="form-control">
+                            <option value="50">$50</option>
+                            <option value="75">$75</option>
+                            <option value="100">$100</option>
+                            <option value="125">$125</option>
+                            <option value="150">$150</option>
+                            <option value="200">$200</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gas-bill" class="form-label">Pago mensual de gas:</label>
+                        <select id="gas-bill" name="gas-bill" class="form-control">
+                            <option value="20">$20</option>
+                            <option value="30">$30</option>
+                            <option value="40">$40</option>
+                            <option value="50">$50</option>
+                            <option value="60">$60</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="water-bill" class="form-label">Pago mensual de agua:</label>
+                        <select id="water-bill" name="water-bill" class="form-control">
+                            <option value="10">$10</option>
+                            <option value="20">$20</option>
+                            <option value="30">$30</option>
+                            <option value="40">$40</option>
+                            <option value="50">$50</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="family-groceries" class="form-label">Gasto mensual en la canasta familiar:</label>
+                        <select id="family-groceries" name="family-groceries" class="form-control">
+                            <option value="200">$200</option>
+                            <option value="300">$300</option>
+                            <option value="400">$400</option>
+                            <option value="500">$500</option>
+                            <option value="600">$600</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="flights" class="form-label">Número de vuelos anuales:</label>
+                        <select id="flights" name="flights" class="form-control">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="calculateCarbonFootprint()">
+                        <i class="fas fa-calculator"></i> Calcular Huella
+                    </button>
+                </form>
+                
+                <div id="carbon-result" class="result-section">
+                    <div class="result-content">
+                        <p class="result-description">Completa el formulario para calcular tu huella de carbono</p>
+                    </div>
                 </div>
+            </div>
 
-                <label for="electricity-bill">Pago mensual de electricidad:</label>
-                <select id="electricity-bill" name="electricity-bill">
-                    <option value="50">$50</option>
-                    <option value="75">$75</option>
-                    <option value="100">$100</option>
-                    <option value="125">$125</option>
-                    <option value="150">$150</option>
-                    <option value="200">$200</option>
-                </select>
+            <!-- Evaluaciones de Sostenibilidad -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h2 class="tool-title">Evaluación de Sostenibilidad</h2>
+                </div>
+                
+                <form id="sustainability-form">
+                    <div class="form-group">
+                        <label for="recycling" class="form-label">¿Reciclas regularmente?</label>
+                        <select id="recycling" name="recycling" class="form-control">
+                            <option value="yes">Sí</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
 
-                <label for="gas-bill">Pago mensual de gas:</label>
-                <select id="gas-bill" name="gas-bill">
-                    <option value="20">$20</option>
-                    <option value="30">$30</option>
-                    <option value="40">$40</option>
-                    <option value="50">$50</option>
-                    <option value="60">$60</option>
-                </select>
+                    <div class="form-group">
+                        <label for="water-saving" class="form-label">¿Utilizas métodos de ahorro de agua?</label>
+                        <select id="water-saving" name="water-saving" class="form-control">
+                            <option value="yes">Sí</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
 
-                <label for="water-bill">Pago mensual de agua:</label>
-                <select id="water-bill" name="water-bill">
-                    <option value="10">$10</option>
-                    <option value="20">$20</option>
-                    <option value="30">$30</option>
-                    <option value="40">$40</option>
-                    <option value="50">$50</option>
-                </select>
+                    <div class="form-group">
+                        <label for="energy-saving" class="form-label">¿Utilizas bombillas de bajo consumo?</label>
+                        <select id="energy-saving" name="energy-saving" class="form-control">
+                            <option value="yes">Sí</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
 
-                <label for="family-groceries">Gasto mensual en la canasta familiar:</label>
-                <select id="family-groceries" name="family-groceries">
-                    <option value="200">$200</option>
-                    <option value="300">$300</option>
-                    <option value="400">$400</option>
-                    <option value="500">$500</option>
-                    <option value="600">$600</option>
-                </select>
+                    <div class="form-group">
+                        <label for="organic-food" class="form-label">¿Compras alimentos orgánicos?</label>
+                        <select id="organic-food" name="organic-food" class="form-control">
+                            <option value="yes">Sí</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
 
-                <label for="flights">Número de vuelos anuales:</label>
-                <select id="flights" name="flights">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
+                    <div class="form-group">
+                        <label for="renewable-energy" class="form-label">¿Utilizas energía renovable en tu hogar?</label>
+                        <select id="renewable-energy" name="renewable-energy" class="form-control">
+                            <option value="yes">Sí</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
 
-                <button type="button" onclick="calculateCarbonFootprint()">Calcular</button>
-            </form>
-            <p id="carbon-result"></p>
-        </section>
+                    <div class="form-group">
+                        <label for="local-products" class="form-label">¿Compras productos locales?</label>
+                        <select id="local-products" name="local-products" class="form-control">
+                            <option value="yes">Sí</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
 
-        <!-- Evaluaciones de Sostenibilidad -->
-        <section id="sustainability-assessment">
-            <h2>Evaluaciones de Sostenibilidad</h2>
-            <form id="sustainability-form">
-                <label for="recycling">¿Reciclas regularmente?</label>
-                <select id="recycling" name="recycling">
-                    <option value="yes">Sí</option>
-                    <option value="no">No</option>
-                </select>
-
-                <label for="water-saving">¿Utilizas métodos de ahorro de agua?</label>
-                <select id="water-saving" name="water-saving">
-                    <option value="yes">Sí</option>
-                    <option value="no">No</option>
-                </select>
-
-                <label for="energy-saving">¿Utilizas bombillas de bajo consumo?</label>
-                <select id="energy-saving" name="energy-saving">
-                    <option value="yes">Sí</option>
-                    <option value="no">No</option>
-                </select>
-
-                <label for="organic-food">¿Compras alimentos orgánicos?</label>
-                <select id="organic-food" name="organic-food">
-                    <option value="yes">Sí</option>
-                    <option value="no">No</option>
-                </select>
-
-                <label for="renewable-energy">¿Utilizas energía renovable en tu hogar?</label>
-                <select id="renewable-energy" name="renewable-energy">
-                    <option value="yes">Sí</option>
-                    <option value="no">No</option>
-                </select>
-
-                <label for="local-products">¿Compras productos locales?</label>
-                <select id="local-products" name="local-products">
-                    <option value="yes">Sí</option>
-                    <option value="no">No</option>
-                </select>
-
-                <button type="button" onclick="evaluateSustainability()">Evaluar</button>
-            </form>
-            <p id="sustainability-result"></p>
-            <p id="recommendations"></p>
-        </section>
+                    <button type="button" class="btn btn-primary" onclick="evaluateSustainability()">
+                        <i class="fas fa-chart-line"></i> Evaluar Sostenibilidad
+                    </button>
+                </form>
+                
+                <div id="sustainability-result" class="result-section">
+                    <div class="result-content">
+                        <p class="result-description">Responde las preguntas para evaluar tu nivel de sostenibilidad</p>
+                    </div>
+                </div>
+                
+                <div id="recommendations" class="recommendations" style="display: none;">
+                    <h4><i class="fas fa-lightbulb"></i> Recomendaciones personalizadas</h4>
+                    <ul id="recommendations-list"></ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -243,132 +676,312 @@
             const vehicleQuestions = document.getElementById('vehicle-questions');
 
             if (vehicle === 'yes') {
-                vehicleQuestions.style.display = 'block';
+                vehicleQuestions.classList.add('show');
             } else {
-                vehicleQuestions.style.display = 'none';
+                vehicleQuestions.classList.remove('show');
             }
+        }
+
+        function animateValue(element, start, end, duration) {
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    element.textContent = end.toFixed(2);
+                    clearInterval(timer);
+                } else {
+                    element.textContent = current.toFixed(2);
+                }
+            }, 16);
+        }
+
+        function showLoadingState(resultElement) {
+            resultElement.classList.add('has-results');
+            resultElement.innerHTML = `
+                <div class="result-content">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <p class="result-description">Calculando tu huella de carbono...</p>
+                </div>
+            `;
         }
 
         function calculateCarbonFootprint() {
-            const carTime = parseFloat(document.getElementById('car-time').value);
-            const publicTransportTime = parseFloat(document.getElementById('public-transport-time').value);
-            const publicTransportDays = parseInt(document.getElementById('public-transport-days').value);
-            const electricityBill = parseFloat(document.getElementById('electricity-bill').value);
-            const gasBill = parseFloat(document.getElementById('gas-bill').value);
-            const waterBill = parseFloat(document.getElementById('water-bill').value);
-            const familyGroceries = parseFloat(document.getElementById('family-groceries').value);
-            const flights = parseInt(document.getElementById('flights').value);
+            const resultElement = document.getElementById('carbon-result');
+            showLoadingState(resultElement);
 
-            const electricityEmissionFactor = 0.5; // kg CO2e per kWh
-            const gasEmissionFactor = 2.5; // kg CO2e per therm
-            const waterHeatingEmissionFactor = 1.5; // kg CO2e per gallon
-            const carEmissionFactor = 0.120; // kg CO2e per km
-            const publicTransportEmissionFactor = 0.060; // kg CO2e per km
-            const flightEmissionFactor = 250; // kg CO2e per flight
-            const familyGroceriesEmissionFactor = 0.005; // kg CO2e per dollar spent
+            setTimeout(() => {
+                const carTime = parseFloat(document.getElementById('car-time').value);
+                const publicTransportTime = parseFloat(document.getElementById('public-transport-time').value);
+                const publicTransportDays = parseInt(document.getElementById('public-transport-days').value);
+                const electricityBill = parseFloat(document.getElementById('electricity-bill').value);
+                const gasBill = parseFloat(document.getElementById('gas-bill').value);
+                const waterBill = parseFloat(document.getElementById('water-bill').value);
+                const familyGroceries = parseFloat(document.getElementById('family-groceries').value);
+                const flights = parseInt(document.getElementById('flights').value);
 
-            // Average prices (in USD)
-            const electricityPrice = 0.12;
-            const gasPrice = 0.05;
-            const waterPrice = 0.005;
+                const electricityEmissionFactor = 0.5;
+                const gasEmissionFactor = 2.5;
+                const waterHeatingEmissionFactor = 1.5;
+                const carEmissionFactor = 0.120;
+                const publicTransportEmissionFactor = 0.060;
+                const flightEmissionFactor = 250;
+                const familyGroceriesEmissionFactor = 0.005;
 
-            // Convert bills to consumption
-            const monthlyElectricityConsumption = electricityBill / electricityPrice;
-            const monthlyGasConsumption = gasBill / gasPrice;
-            const monthlyWaterConsumption = waterBill / waterPrice;
+                const electricityPrice = 0.12;
+                const gasPrice = 0.05;
+                const waterPrice = 0.005;
 
-            // Convert transport time to km (assuming average speeds)
-            const carKm = carTime * 60 / 50; // Average speed of 50 km/h
-            const publicTransportKm = publicTransportTime * 60 / 20 * publicTransportDays; // Average speed of 20 km/h
+                const monthlyElectricityConsumption = electricityBill / electricityPrice;
+                const monthlyGasConsumption = gasBill / gasPrice;
+                const monthlyWaterConsumption = waterBill / waterPrice;
 
-            const monthlyCarbonFootprint = (monthlyElectricityConsumption * electricityEmissionFactor) + 
-                                           (monthlyGasConsumption * gasEmissionFactor) + 
-                                           (monthlyWaterConsumption * waterHeatingEmissionFactor) + 
-                                           (carKm * carEmissionFactor) + 
-                                           (publicTransportKm * publicTransportEmissionFactor) + 
-                                           (familyGroceries * familyGroceriesEmissionFactor);
+                const carKm = carTime * 60 / 50;
+                const publicTransportKm = publicTransportTime * 60 / 20 * publicTransportDays;
 
-            const annualCarbonFootprint = (flights * flightEmissionFactor) + (monthlyCarbonFootprint * 12);
+                const monthlyCarbonFootprint = (monthlyElectricityConsumption * electricityEmissionFactor) + 
+                                               (monthlyGasConsumption * gasEmissionFactor) + 
+                                               (monthlyWaterConsumption * waterHeatingEmissionFactor) + 
+                                               (carKm * carEmissionFactor) + 
+                                               (publicTransportKm * publicTransportEmissionFactor) + 
+                                               (familyGroceries * familyGroceriesEmissionFactor);
 
-            let impact = '';
-            if (annualCarbonFootprint < 100000) {
-                impact = 'bajo';
-            } else if (annualCarbonFootprint < 200000) {
-                impact = 'medio';
-            } else {
-                impact = 'alto';
-            }
+                const annualCarbonFootprint = (flights * flightEmissionFactor) + (monthlyCarbonFootprint * 12);
 
-            let impactColor = '';
-            if (impact === 'bajo') {
-                impactColor = 'green';
-            } else if (impact === 'medio') {
-                impactColor = 'yellow';
-            } else {
-                impactColor = 'red';
-            }
+                let impact = '';
+                let impactClass = '';
+                let impactIcon = '';
+                let progressWidth = 0;
+                
+                if (annualCarbonFootprint < 100000) {
+                    impact = 'bajo';
+                    impactClass = 'impact-low';
+                    impactIcon = 'fa-check-circle';
+                    progressWidth = 30;
+                } else if (annualCarbonFootprint < 200000) {
+                    impact = 'medio';
+                    impactClass = 'impact-medium';
+                    impactIcon = 'fa-exclamation-triangle';
+                    progressWidth = 60;
+                } else {
+                    impact = 'alto';
+                    impactClass = 'impact-high';
+                    impactIcon = 'fa-times-circle';
+                    progressWidth = 90;
+                }
 
-            document.getElementById('carbon-result').innerHTML = `Tu huella de carbono es de ${annualCarbonFootprint.toFixed(2)} kg CO2e al año. Impacto: <span style="color: ${impactColor};">${impact}</span>.`;
+                resultElement.innerHTML = `
+                    <div class="result-content">
+                        <div class="result-title">
+                            <i class="fas ${impactIcon} ${impactClass}"></i>
+                            Tu Huella de Carbono Anual
+                        </div>
+                        <div class="result-value ${impactClass}" id="carbon-value">0</div>
+                        <div class="result-description">
+                            Impacto: <span class="${impactClass}">${impact.toUpperCase()}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progressWidth}%"></div>
+                        </div>
+                        <div class="result-description">
+                            ${getCarbonAdvice(impact)}
+                        </div>
+                    </div>
+                `;
+
+                const valueElement = document.getElementById('carbon-value');
+                animateValue(valueElement, 0, annualCarbonFootprint, 1500);
+            }, 1000);
+        }
+
+        function getCarbonAdvice(impact) {
+            const advice = {
+                'bajo': '¡Excelente! Tu huella de carbono es baja. Sigue manteniendo estos buenos hábitos ambientales.',
+                'medio': 'Tu huella de carbono es moderada. Considera reducir el uso de vehículo y optimizar tu consumo energético.',
+                'alto': 'Tu huella de carbono es alta. Te recomendamos tomar medidas urgentes como reducir vuelos, usar transporte público y mejorar la eficiencia energética.'
+            };
+            return advice[impact] || '';
+        }
+
+        function showSustainabilityLoadingState(resultElement) {
+            resultElement.classList.add('has-results');
+            resultElement.innerHTML = `
+                <div class="result-content">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <p class="result-description">Evaluando tu sostenibilidad...</p>
+                </div>
+            `;
         }
 
         function evaluateSustainability() {
-            const recycling = document.getElementById('recycling').value;
-            const waterSaving = document.getElementById('water-saving').value;
-            const energySaving = document.getElementById('energy-saving').value;
-            const organicFood = document.getElementById('organic-food').value;
-            const renewableEnergy = document.getElementById('renewable-energy').value;
-            const localProducts = document.getElementById('local-products').value;
+            const resultElement = document.getElementById('sustainability-result');
+            const recommendationsElement = document.getElementById('recommendations');
+            
+            showSustainabilityLoadingState(resultElement);
+            recommendationsElement.style.display = 'none';
 
-            let score = 0;
-            if (recycling === 'yes') score++;
-            if (waterSaving === 'yes') score++;
-            if (energySaving === 'yes') score++;
-            if (organicFood === 'yes') score++;
-            if (renewableEnergy === 'yes') score++;
-            if (localProducts === 'yes') score++;
+            setTimeout(() => {
+                const recycling = document.getElementById('recycling').value;
+                const waterSaving = document.getElementById('water-saving').value;
+                const energySaving = document.getElementById('energy-saving').value;
+                const organicFood = document.getElementById('organic-food').value;
+                const renewableEnergy = document.getElementById('renewable-energy').value;
+                const localProducts = document.getElementById('local-products').value;
 
-            let assessmentMessage = '';
-            if (score === 6) {
-                assessmentMessage = '¡Excelente! Estás haciendo un gran trabajo para vivir de manera sostenible.';
-            } else if (score >= 4) {
-                assessmentMessage = 'Bien hecho, pero hay espacio para mejorar.';
-            } else {
-                assessmentMessage = 'Intenta adoptar más prácticas sostenibles.';
-            }
+                let score = 0;
+                const practices = [
+                    { name: 'recycling', value: recycling, label: 'Reciclaje' },
+                    { name: 'water-saving', value: waterSaving, label: 'Ahorro de agua' },
+                    { name: 'energy-saving', value: energySaving, label: 'Energía eficiente' },
+                    { name: 'organic-food', value: organicFood, label: 'Alimentos orgánicos' },
+                    { name: 'renewable-energy', value: renewableEnergy, label: 'Energía renovable' },
+                    { name: 'local-products', value: localProducts, label: 'Productos locales' }
+                ];
 
-            document.getElementById('sustainability-result').innerText = assessmentMessage;
-            provideRecommendations(recycling, waterSaving, energySaving, organicFood, renewableEnergy, localProducts);
+                practices.forEach(practice => {
+                    if (practice.value === 'yes') score++;
+                });
+
+                const percentage = (score / 6) * 100;
+                let assessmentMessage = '';
+                let assessmentClass = '';
+                let assessmentIcon = '';
+                
+                if (score === 6) {
+                    assessmentMessage = '¡Excelente! Estás haciendo un gran trabajo para vivir de manera sostenible.';
+                    assessmentClass = 'impact-low';
+                    assessmentIcon = 'fa-trophy';
+                } else if (score >= 4) {
+                    assessmentMessage = 'Bien hecho, pero hay espacio para mejorar.';
+                    assessmentClass = 'impact-medium';
+                    assessmentIcon = 'fa-thumbs-up';
+                } else {
+                    assessmentMessage = 'Intenta adoptar más prácticas sostenibles.';
+                    assessmentClass = 'impact-high';
+                    assessmentIcon = 'fa-seedling';
+                }
+
+                resultElement.innerHTML = `
+                    <div class="result-content">
+                        <div class="result-title">
+                            <i class="fas ${assessmentIcon} ${assessmentClass}"></i>
+                            Nivel de Sostenibilidad
+                        </div>
+                        <div class="result-value ${assessmentClass}">${score}/6</div>
+                        <div class="result-description">
+                            ${percentage.toFixed(0)}% de prácticas sostenibles
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%"></div>
+                        </div>
+                        <div class="result-description">
+                            ${assessmentMessage}
+                        </div>
+                    </div>
+                `;
+
+                provideRecommendations(recycling, waterSaving, energySaving, organicFood, renewableEnergy, localProducts);
+            }, 1000);
         }
 
         function provideRecommendations(recycling, waterSaving, energySaving, organicFood, renewableEnergy, localProducts) {
-            let recommendations = 'Aquí tienes algunas recomendaciones para mejorar tu sostenibilidad:\n';
+            const recommendations = [];
 
             if (recycling === 'no') {
-                recommendations += '- <span class="recommendation-title">Comienza a reciclar regularmente</span>: El reciclaje reduce la necesidad de nuevas materias primas y disminuye la cantidad de residuos en los vertederos. Empieza con plásticos, papel y vidrio.\n';
+                recommendations.push({
+                    title: 'Comienza a reciclar regularmente',
+                    description: 'El reciclaje reduce la necesidad de nuevas materias primas y disminuye la cantidad de residuos en los vertederos. Empieza con plásticos, papel y vidrio.',
+                    icon: 'fa-recycle'
+                });
             }
 
             if (waterSaving === 'no') {
-                recommendations += '- <span class="recommendation-title">Utiliza métodos de ahorro de agua</span>: Instala dispositivos de ahorro de agua como aireadores en los grifos y cabezales de ducha de bajo flujo. También, considera recoger agua de lluvia para el riego.\n';
+                recommendations.push({
+                    title: 'Utiliza métodos de ahorro de agua',
+                    description: 'Instala dispositivos de ahorro de agua como aireadores en los grifos y cabezales de ducha de bajo flujo. También, considera recoger agua de lluvia para el riego.',
+                    icon: 'fa-tint'
+                });
             }
 
             if (energySaving === 'no') {
-                recommendations += '- <span class="recommendation-title">Cambia a bombillas de bajo consumo</span>: Las bombillas LED consumen menos energía y duran más que las incandescentes tradicionales. Además, aprovecha al máximo la luz natural durante el día.\n';
+                recommendations.push({
+                    title: 'Cambia a bombillas de bajo consumo',
+                    description: 'Las bombillas LED consumen menos energía y duran más que las incandescentes tradicionales. Además, aprovecha al máximo la luz natural durante el día.',
+                    icon: 'fa-lightbulb'
+                });
             }
 
             if (organicFood === 'no') {
-                recommendations += '- <span class="recommendation-title">Compra alimentos orgánicos</span>: Los alimentos orgánicos son cultivados sin el uso de pesticidas químicos y fertilizantes sintéticos, lo que es mejor para el medio ambiente y tu salud.\n';
+                recommendations.push({
+                    title: 'Compra alimentos orgánicos',
+                    description: 'Los alimentos orgánicos son cultivados sin el uso de pesticidas químicos y fertilizantes sintéticos, lo que es mejor para el medio ambiente y tu salud.',
+                    icon: 'fa-apple-alt'
+                });
             }
 
             if (renewableEnergy === 'no') {
-                recommendations += '- <span class="recommendation-title">Utiliza energía renovable</span>: Si es posible, instala paneles solares o contrata un suministro de energía que provenga de fuentes renovables como la solar o eólica.\n';
+                recommendations.push({
+                    title: 'Utiliza energía renovable',
+                    description: 'Si es posible, instala paneles solares o contrata un suministro de energía que provenga de fuentes renovables como la solar o eólica.',
+                    icon: 'fa-solar-panel'
+                });
             }
 
             if (localProducts === 'no') {
-                recommendations += '- <span class="recommendation-title">Prefiere productos locales</span>: Comprar productos locales reduce la huella de carbono asociada al transporte de bienes y apoya a la economía de tu comunidad.\n';
+                recommendations.push({
+                    title: 'Prefiere productos locales',
+                    description: 'Comprar productos locales reduce la huella de carbono asociada al transporte de bienes y apoya a la economía de tu comunidad.',
+                    icon: 'fa-store'
+                });
             }
 
-            document.getElementById('recommendations').innerHTML = recommendations;
+            const recommendationsElement = document.getElementById('recommendations');
+            const recommendationsList = document.getElementById('recommendations-list');
+            
+            if (recommendations.length > 0) {
+                recommendationsList.innerHTML = recommendations.map(rec => `
+                    <li>
+                        <i class="fas ${rec.icon} recommendation-title"></i>
+                        <strong class="recommendation-title">${rec.title}</strong>: ${rec.description}
+                    </li>
+                `).join('');
+                recommendationsElement.style.display = 'block';
+            } else {
+                recommendationsElement.style.display = 'none';
+            }
         }
+
+        // Initialize tooltips and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth scroll behavior
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Add form field animations
+            const formControls = document.querySelectorAll('.form-control');
+            formControls.forEach(control => {
+                control.addEventListener('focus', function() {
+                    this.parentElement.classList.add('focused');
+                });
+                
+                control.addEventListener('blur', function() {
+                    this.parentElement.classList.remove('focused');
+                });
+            });
+        });
     </script>
 </body>
 </html>

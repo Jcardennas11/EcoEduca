@@ -4,198 +4,1817 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Herramienta de Metas Ambientales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Dark Theme - High Contrast */
+            --primary: #0088ff;
+            --primary-dark: #0066cc;
+            --primary-light: #66aaff;
+            --secondary: #00ffff;
+            --accent: #ff0088;
+            --success: #00ff00;
+            --warning: #ffaa00;
+            --danger: #ff4444;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --surface: rgba(255, 255, 255, 0.08);
+            --surface-hover: rgba(255, 255, 255, 0.12);
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border: rgba(255, 255, 255, 0.2);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 32px 64px rgba(0, 0, 0, 0.6);
+            --gradient-primary: linear-gradient(135deg, #0088ff 0%, #00ccff 100%);
+            --gradient-secondary: linear-gradient(135deg, #ff0088 0%, #ff4488 100%);
+            --gradient-accent: linear-gradient(135deg, #00ffff 0%, #0088ff 100%);
+            --gradient-success: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        [data-theme="light"] {
+            /* Light Theme - High Contrast */
+            --primary: #0066cc;
+            --primary-dark: #004499;
+            --primary-light: #3399ff;
+            --secondary: #0099cc;
+            --accent: #cc0066;
+            --success: #00cc00;
+            --warning: #ff8800;
+            --danger: #cc0000;
+            --bg-primary: #f8f8f8;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f0f0f0;
+            --surface: rgba(0, 0, 0, 0.05);
+            --surface-hover: rgba(0, 0, 0, 0.08);
+            --text-primary: #1a1a1a;
+            --text-secondary: #333333;
+            --text-muted: #666666;
+            --border: rgba(0, 0, 0, 0.15);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.2);
+            --shadow-xl: 0 32px 64px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
-            background-image: url('https://texlimca.com/api/wp-content/uploads/2024/10/Contenedores-de-reciclaje-segun-sus-colores-y-usos1-scaled.jpg');  
-            background-size: cover;
-            background-position: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0.3;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: var(--gradient-primary);
+            animation: gradientShift 20s ease infinite;
+        }
+
+        .bg-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(0, 136, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 136, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
+            animation: patternMove 30s ease-in-out infinite;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0, 136, 255, 0.1), rgba(255, 0, 136, 0.1));
+            backdrop-filter: blur(10px);
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 10%;
+            left: 30%;
+            animation-delay: 10s;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover i {
+            transform: rotate(180deg);
+        }
+
+        /* Container */
+        .container-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
         }
 
         main {
-            background-color: rgba(255, 255, 255, 0.8); 
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 70%;
-            max-width: 800px;
+            width: 100%;
+            max-width: 1200px;
+            background: var(--surface);
+            backdrop-filter: blur(40px);
+            border-radius: var(--border-radius-lg);
+            border: 2px solid var(--border);
+            padding: 60px;
+            box-shadow: var(--shadow-xl);
+            animation: slideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
         }
 
+        main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-accent);
+            animation: shimmer 3s infinite;
+        }
+
+        /* Header */
         header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
             text-align: center;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            margin-bottom: 60px;
+            position: relative;
         }
 
-        h1, h2 {
-            text-align: center; 
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+            animation: glow 3s ease-in-out infinite alternate;
+            text-shadow: 0 0 20px rgba(0, 136, 255, 0.3);
         }
 
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Sections */
         section {
-            margin-bottom: 20px;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 2px solid var(--border);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
-        .container {
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(102, 126, 234, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        section:hover::before {
+            opacity: 1;
+        }
+
+        section:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 24px;
             display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        h2 i {
+            font-size: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Forms */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            letter-spacing: 0.01em;
+        }
+
+        label i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            transition: var(--transition);
+            outline: none;
+            font-weight: 500;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: var(--primary);
+            background: var(--surface);
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: var(--gradient-success);
+            color: white;
+            box-shadow: 0 8px 32px rgba(0, 210, 255, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 210, 255, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffaa00, #ff6600);
+            color: white;
+            box-shadow: 0 8px 32px rgba(255, 170, 0, 0.3);
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(255, 170, 0, 0.4);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-tertiary);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-primary);
+        }
+
+        .card:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .stat-card {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 32px 24px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Lists */
+        .list-group {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-group-item {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+        }
+
+        .list-group-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .list-group-item:hover::before {
+            width: 4px;
+        }
+
+        .list-group-item:hover {
+            background: var(--surface);
+            transform: translateX(12px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Badges */
+        .badge {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px 24px;
+            border-radius: var(--border-radius);
+            margin-bottom: 24px;
+            border-left: 4px solid;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-success {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .alert-warning {
+            background: rgba(255, 170, 0, 0.1);
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+
+        .alert-danger {
+            background: rgba(255, 51, 102, 0.1);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .alert-info {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        /* Progress Bars */
+        .progress {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            height: 12px;
+            overflow: hidden;
+            margin: 16px 0;
+            position: relative;
+        }
+
+        .progress-bar {
+            background: var(--gradient-accent);
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        /* Animations */
+        @keyframes gradientShift {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+
+        @keyframes patternMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -20px) rotate(120deg); }
+            66% { transform: translate(20px, -10px) rotate(240deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.8)); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            main {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            section {
+                padding: 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .theme-toggle {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container-wrapper {
+                padding: 10px;
+            }
+
+            main {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Modern Ranking Styles */
+        .stats-overview {
+            margin-bottom: 40px;
+        }
+
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 20px;
+            background: var(--bg-tertiary);
+            border-radius: var(--border-radius);
+            border: 2px solid var(--border);
+        }
+
+        .stats-header h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid var(--success);
+            border-radius: 20px;
+            color: var(--success);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .stats-grid-modern {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card-modern {
+            border-radius: var(--border-radius);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-card-modern:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-content {
+            flex: 1;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        /* Top Recyclers Section - Enhanced */
+        .top-recyclers-section {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .top-three-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 48px;
+        }
+
+        .top-recycler-card {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .top-recycler-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+
+        .medal-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: var(--shadow-lg);
+            animation: bounce 2s infinite;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .medal-emoji {
+            font-size: 0.9rem;
+            margin-bottom: 1px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .position-number {
+            font-size: 0.55rem;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .recycler-avatar {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 10px;
+        }
+
+        .avatar-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 800;
+            color: white;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+            box-shadow: var(--shadow-md);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .avatar-ring {
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            z-index: 1;
+            animation: rotate 10s linear infinite;
+            opacity: 0.6;
+        }
+
+        .recycler-info {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .recycler-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 3px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .recycler-id {
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            margin-bottom: 9px;
+            font-weight: 500;
+        }
+
+        .recycler-stats {
+            display: flex;
+            justify-content: center;
+            gap: 7px;
             margin-bottom: 10px;
         }
 
-        .container label {
-            margin-right: 10px;
+        .mini-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 5px 7px;
+            background: var(--surface);
+            border-radius: 7px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
         }
 
-        select, input[type="number"], input[type="text"] {
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+        .mini-stat:hover {
+            transform: translateY(-2px);
+            background: var(--surface-hover);
+            box-shadow: var(--shadow-sm);
         }
 
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
+        .mini-stat i {
+            color: var(--primary);
+            font-size: 0.75rem;
+        }
+
+        .mini-stat span {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.65rem;
+        }
+
+        .total-points {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .points-number {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .points-label {
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            font-weight: 500;
+        }
+
+        .progress-ring {
+            position: relative;
+            width: 28px;
+            height: 28px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-svg {
+            transform: rotate(-90deg);
+            width: 28px;
+            height: 28px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .progress-bg {
+            stroke-dasharray: 70 70;
+            stroke-width: 2.5;
+            fill: none;
+        }
+
+        .progress-fill {
+            transition: stroke-dasharray 1s ease-in-out;
+            stroke-linecap: round;
+            stroke-width: 2.5;
+            fill: none;
+        }
+
+        .progress-percentage {
+            position: relative;
+            font-size: 0.45rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            z-index: 2;
+        }
+
+        /* Rest of Recyclers - Compact Version */
+        .rest-recyclers {
+            margin-top: 32px;
+        }
+
+        .subsection-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .recyclers-list-compact {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .recycler-item-compact {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: var(--transition);
+            animation: slideInLeft 0.4s cubic-bezier(0.23, 1, 0.32, 1) both;
+            min-height: 60px;
+        }
+
+        .recycler-item-compact:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+            background: var(--surface-hover);
+        }
+
+        .position-compact {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-primary);
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
         }
 
-        button:hover {
-            background-color: #45a049;
+        .user-info-compact {
+            flex: 1;
+            min-width: 0;
         }
 
-        #lista-objetos-reciclados {
-            margin-top: 10px;
+        .user-name-compact {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        #lista-objetos-reciclados strong {
-            display: block;
-            margin-bottom: 5px;
+        .user-stats-compact {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        #ticket-info {
-            margin-top: 10px;
-            font-weight: bold;
-            color: red;
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            background: var(--surface);
+            padding: 2px 6px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
 
-        ul {
-            padding-left: 20px;
+        .stat-item i {
+            color: var(--primary);
+            font-size: 0.75rem;
         }
 
-        .hidden {
-            display: none;
+        .user-points-compact {
+            flex-shrink: 0;
+        }
+
+        .points-badge-compact {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* Scrollbar for compact list */
+        .recyclers-list-compact::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .recyclers-list-compact::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+        }
+
+        .recyclers-list-compact::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 3px;
+        }
+
+        .recyclers-list-compact::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Additional Animations */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive Design for Enhanced Top Cards */
+        @media (max-width: 768px) {
+            .stats-header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .stats-grid-modern {
+                grid-template-columns: 1fr;
+            }
+
+            .top-three-grid {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 10px;
+            }
+
+            .top-recycler-card {
+                padding: 10px;
+            }
+
+            .medal-badge {
+                width: 32px;
+                height: 32px;
+                top: -4px;
+                right: -4px;
+            }
+
+            .medal-emoji {
+                font-size: 0.7rem;
+            }
+
+            .position-number {
+                font-size: 0.45rem;
+            }
+
+            .recycler-avatar {
+                width: 32px;
+                height: 32px;
+                margin: 0 auto 8px;
+            }
+
+            .avatar-circle {
+                font-size: 0.8rem;
+            }
+
+            .avatar-ring {
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+            }
+
+            .recycler-name {
+                font-size: 0.75rem;
+            }
+
+            .recycler-id {
+                font-size: 0.55rem;
+                margin-bottom: 7px;
+            }
+
+            .recycler-stats {
+                gap: 5px;
+                margin-bottom: 8px;
+            }
+
+            .mini-stat {
+                padding: 4px 5px;
+            }
+
+            .mini-stat i {
+                font-size: 0.65rem;
+            }
+
+            .mini-stat span {
+                font-size: 0.55rem;
+            }
+
+            .points-number {
+                font-size: 1.2rem;
+            }
+
+            .points-label {
+                font-size: 0.55rem;
+            }
+
+            .progress-ring {
+                width: 24px;
+                height: 24px;
+            }
+
+            .progress-svg {
+                width: 24px;
+                height: 24px;
+                stroke-dasharray: 60 60;
+                stroke-width: 2;
+            }
+
+            .progress-bg {
+                stroke-width: 2;
+            }
+
+            .progress-fill {
+                stroke-width: 2;
+            }
+
+            .progress-percentage {
+                font-size: 0.4rem;
+            }
+
+            .recyclers-list-compact {
+                max-height: 300px;
+                gap: 6px;
+            }
+
+            .recycler-item-compact {
+                padding: 10px 12px;
+                gap: 12px;
+                min-height: 50px;
+            }
+
+            .position-compact {
+                width: 28px;
+                height: 28px;
+                font-size: 0.75rem;
+            }
+
+            .user-name-compact {
+                font-size: 0.9rem;
+            }
+
+            .stat-item {
+                font-size: 0.75rem;
+                padding: 1px 4px;
+                gap: 2px;
+            }
+
+            .stat-item i {
+                font-size: 0.7rem;
+            }
+
+            .points-badge-compact {
+                padding: 4px 8px;
+                font-size: 0.8rem;
+                min-width: 35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-recycler-card {
+                padding: 8px;
+            }
+
+            .medal-badge {
+                width: 28px;
+                height: 28px;
+                top: -3px;
+                right: -3px;
+            }
+
+            .medal-emoji {
+                font-size: 0.6rem;
+            }
+
+            .position-number {
+                font-size: 0.4rem;
+            }
+
+            .recycler-avatar {
+                width: 28px;
+                height: 28px;
+                margin: 0 auto 6px;
+            }
+
+            .avatar-circle {
+                font-size: 0.7rem;
+            }
+
+            .recycler-name {
+                font-size: 0.7rem;
+            }
+
+            .recycler-id {
+                font-size: 0.5rem;
+            }
+
+            .recycler-stats {
+                gap: 4px;
+                flex-wrap: wrap;
+            }
+
+            .mini-stat {
+                padding: 3px 4px;
+                min-width: 45px;
+            }
+
+            .points-number {
+                font-size: 1.1rem;
+            }
+
+            .progress-ring {
+                width: 20px;
+                height: 20px;
+            }
+
+            .progress-svg {
+                width: 20px;
+                height: 20px;
+                stroke-dasharray: 50 50;
+                stroke-width: 1.5;
+            }
+
+            .progress-bg {
+                stroke-width: 1.5;
+            }
+
+            .progress-fill {
+                stroke-width: 1.5;
+            }
+
+            .progress-percentage {
+                font-size: 0.35rem;
+            }
+
+            .subsection-title {
+                font-size: 1.1rem;
+                margin-bottom: 12px;
+            }
+
+            .recyclers-list-compact {
+                max-height: 250px;
+                gap: 4px;
+            }
+
+            .recycler-item-compact {
+                padding: 8px 10px;
+                gap: 10px;
+                min-height: 45px;
+            }
+
+            .position-compact {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
+            }
+
+            .user-name-compact {
+                font-size: 0.85rem;
+            }
+
+            .stat-item {
+                font-size: 0.7rem;
+                padding: 1px 3px;
+            }
+
+            .points-badge-compact {
+                padding: 3px 6px;
+                font-size: 0.75rem;
+                min-width: 30px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Herramienta de Metas Ambientales</h1>
-    </header>
-    <main>
-        <section id="admin-settings">
-            <h2>Configuración de Metas Mensuales</h2>
-            <p>Establecer metas para el mes:</p>
-            <div class="container">
-                <label for="meta-botellas">Botellas plasticas:</label>
-                <input type="number" id="meta-botellas" min="0" value="0">
-            </div>
-            <div class="container">
-                <label for="meta-papel">Papel  (en kilos) :</label>
-                <input type="number" id="meta-papel" min="0" value="0">
-            </div>
-            <div class="container">
-                <label for="meta-cajas">Cajas de Cartón:</label>
-                <input type="number" id="meta-cajas" min="0" value="0">
-            </div>
-            <button id="establecer-metas-btn" onclick="establecerMetas()">Establecer Metas</button>
-        </section>
-        <section id="goal-setting">
-            <h2>Establecer Meta Ambiental</h2>
-            <p>¡Hola! Por favor, ingresa tu información:</p>
-            <div class="container">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" placeholder="Tu Nombre">
-            </div>
-            <div class="container">
-                <label for="tipo-documento">Tipo de Documento:</label>
-                <select id="tipo-documento">
-                    <option value="Cedula de Ciudadanía">Cédula de Ciudadanía</option>
-                    <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
-                    <option value="DNI">DNI</option>
-                    <option value="Pasaporte">Pasaporte</option>
-                    <option value="Otro">Otro</option>
-                </select>
-            </div>
-            <div class="container">
-                <label for="documento">Número de Documento:</label>
-                <input type="text" id="documento" placeholder="Número de Documento">
-            </div>
-            <p>¡Tu nueva meta es reciclar las siguientes cantidades este mes!</p>
-            <ul id="metas-del-mes"></ul>
-        </section>
-        <section id="recycling">
-            <h2>Registro de Objetos Reciclados</h2>
-            <div class="container">
-                <label for="botellas">Botellas plasticas:</label>
-                <select id="botellas">
-                    <option value="0">0</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                </select>
-            </div>
-            <div class="container">
-                <label for="papel">Papel (en kilos) :</label>
-                <select id="papel">
-                    <option value="0">0</option>
-                    <option value="2.5">2.5</option>
-                    <option value="5">5</option>
-                    <option value="7.5">7.5</option>
-                    <option value="10">10</option>
-                </select>
-            </div>
-            <div class="container">
-                <label for="cajas">Cajas de Cartón:</label>
-                <select id="cajas">
-                    <option value="0">0</option>
-                    <option value="3">3</option>
-                    <option value="6">6</option>
-                    <option value="9">9</option>
-                    <option value="12">12</option>
-                </select>
-            </div>
-            <button onclick="registrarObjetos()">Registrar</button>
-            <div id="lista-objetos-reciclados"></div>
-        </section>
-        <section id="discount-ticket">
-            <h2>Ticket de Descuento</h2>
-            <p><span id="nombreUsuario"></span>, tu ticket de descuento:</p>
-            <div id="ticket-info"></div>
-            <button onclick="retirarDescuento()">Retirar Descuento</button>
-        </section>
-        <section id="discount-info">
-            <h2>Descuentos Disponibles</h2>
-            <ul id="descuentos-info"></ul>
-        </section>
-        <section id="report">
-            <h2>Informe de Reciclaje</h2>
-            <button id="btn-generar-informe">Mostrar Informe</button>
-            <div id="informe-personas"></div>
-        </section>
-    </main>
-    <script>
-        const usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-pattern"></div>
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
 
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </div>
+
+    <div class="container-wrapper">
+        <main>
+            <header>
+                <h1><i class="fas fa-leaf"></i> Herramienta de Metas Ambientales</h1>
+                <p class="subtitle">Establece y sigue tus metas de reciclaje mensuales con tecnología de última generación</p>
+            </header>
+            
+            <section id="admin-settings">
+                <h2><i class="fas fa-cog"></i> Configuración de Metas Mensuales</h2>
+                <p style="color: var(--text-light); margin-bottom: 20px;">Establece las metas de reciclaje para este mes:</p>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="meta-botellas"><i class="fas fa-wine-bottle"></i> Botellas plásticas:</label>
+                        <input type="number" id="meta-botellas" min="0" value="0" placeholder="Cantidad de botellas">
+                    </div>
+                    <div class="form-group">
+                        <label for="meta-papel"><i class="fas fa-newspaper"></i> Papel (kg):</label>
+                        <input type="number" id="meta-papel" min="0" step="0.5" value="0" placeholder="Kilogramos de papel">
+                    </div>
+                    <div class="form-group">
+                        <label for="meta-cajas"><i class="fas fa-box"></i> Cajas de cartón:</label>
+                        <input type="number" id="meta-cajas" min="0" value="0" placeholder="Número de cajas">
+                    </div>
+                </div>
+                
+                <button id="establecer-metas-btn" class="btn btn-primary" onclick="establecerMetas()">
+                    <i class="fas fa-check-circle"></i> Establecer Metas
+                </button>
+            </section>
+
+            <section id="goal-setting">
+                <h2><i class="fas fa-user-plus"></i> Establecer Meta Ambiental Personal</h2>
+                <div class="alert alert-info" style="background: rgba(52, 152, 219, 0.1); border-color: var(--secondary-color); color: var(--secondary-color);">
+                    <i class="fas fa-info-circle"></i>
+                    <span>¡Hola! Por favor, ingresa tu información para comenzar:</span>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre"><i class="fas fa-user"></i> Nombre completo:</label>
+                        <input type="text" id="nombre" placeholder="Tu Nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo-documento"><i class="fas fa-id-card"></i> Tipo de documento:</label>
+                        <select id="tipo-documento">
+                            <option value="Cedula de Ciudadanía">Cédula de Ciudadanía</option>
+                            <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                            <option value="DNI">DNI</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="documento"><i class="fas fa-hashtag"></i> Número de documento:</label>
+                        <input type="text" id="documento" placeholder="Número de Documento">
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-bullseye"></i>
+                        Tu Meta Ambiental
+                    </div>
+                    <div class="card-body">
+                        <p>¡Tu nueva meta es reciclar las siguientes cantidades este mes:</p>
+                        <ul id="metas-del-mes" class="list-group"></ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="recycling">
+                <h2><i class="fas fa-recycle"></i> Registro de Objetos Reciclados</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="botellas"><i class="fas fa-wine-bottle"></i> Botellas plásticas:</label>
+                        <select id="botellas">
+                            <option value="0">0 botellas</option>
+                            <option value="5">5 botellas</option>
+                            <option value="10">10 botellas</option>
+                            <option value="15">15 botellas</option>
+                            <option value="20">20 botellas</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="papel"><i class="fas fa-newspaper"></i> Papel (kg):</label>
+                        <select id="papel">
+                            <option value="0">0 kg</option>
+                            <option value="2.5">2.5 kg</option>
+                            <option value="5">5 kg</option>
+                            <option value="7.5">7.5 kg</option>
+                            <option value="10">10 kg</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cajas"><i class="fas fa-box"></i> Cajas de cartón:</label>
+                        <select id="cajas">
+                            <option value="0">0 cajas</option>
+                            <option value="3">3 cajas</option>
+                            <option value="6">6 cajas</option>
+                            <option value="9">9 cajas</option>
+                            <option value="12">12 cajas</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button onclick="registrarObjetos()" class="btn btn-success">
+                    <i class="fas fa-plus-circle"></i> Registrar Reciclaje
+                </button>
+                
+                <div id="lista-objetos-reciclados" class="card" style="margin-top: 20px; display: none;">
+                    <div class="card-header">
+                        <i class="fas fa-chart-line"></i>
+                        Tu Progreso de Reciclaje
+                    </div>
+                    <div class="card-body"></div>
+                </div>
+            </section>
+
+            <section id="discount-ticket">
+                <h2><i class="fas fa-ticket-alt"></i> Ticket de Descuento</h2>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-gift"></i>
+                        <span id="nombreUsuario">Usuario</span>, tu ticket de descuento:
+                    </div>
+                    <div class="card-body">
+                        <div id="ticket-info"></div>
+                        <button onclick="retirarDescuento()" class="btn btn-warning" style="margin-top: 15px;">
+                            <i class="fas fa-shopping-cart"></i> Retirar Descuento
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="discount-info">
+                <h2><i class="fas fa-percentage"></i> Descuentos Disponibles</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">20%</div>
+                        <div class="stat-label">Descuento en tienda</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">♻️</div>
+                        <div class="stat-label">Alcanzando metas</div>
+                    </div>
+                </div>
+                <ul id="descuentos-info" class="list-group"></ul>
+            </section>
+
+            <section id="report">
+                <h2><i class="fas fa-chart-bar"></i> Informe de Reciclaje</h2>
+                <button id="btn-generar-informe" class="btn btn-primary" onclick="generarInformePersonas()">
+                    <i class="fas fa-file-alt"></i> Mostrar Informe Completo
+                </button>
+                <div id="informe-personas" style="margin-top: 20px;"></div>
+            </section>
+        </main>
+    </div>
+    <script>
+        // Theme Toggle Function
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update icon
+            if (newTheme === 'light') {
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                themeIcon.className = 'fas fa-sun';
+            }
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            html.setAttribute('data-theme', savedTheme);
+            
+            if (savedTheme === 'light') {
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                themeIcon.className = 'fas fa-sun';
+            }
+        });
+
+        // Enhanced animations for interactions
+        function addInteractionEffects() {
+            // Add ripple effect to buttons
+            document.querySelectorAll('.btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Add hover sound effect simulation (visual feedback)
+            document.querySelectorAll('input, select, button').forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02)';
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        }
+
+        // Initialize interactions
+        document.addEventListener('DOMContentLoaded', addInteractionEffects);
+
+        // Enhanced loading states
+        function showLoading(button) {
+            const originalContent = button.innerHTML;
+            button.innerHTML = '<span class="loading"></span> Procesando...';
+            button.disabled = true;
+            
+            return () => {
+                button.innerHTML = originalContent;
+                button.disabled = false;
+            };
+        }
+
+        // Enhanced success animations
+        function showSuccessAnimation(element) {
+            element.style.animation = 'pulse 0.6s ease-in-out';
+            element.style.background = 'var(--gradient-success)';
+            
+            setTimeout(() => {
+                element.style.animation = '';
+                element.style.background = '';
+            }, 600);
+        }
+
+        // Add ripple effect styles
+        const rippleStyles = `
+            .btn {
+                position: relative;
+                overflow: hidden;
+            }
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple-animation 0.6s ease-out;
+                pointer-events: none;
+            }
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = rippleStyles;
+        document.head.appendChild(styleSheet);
+
+        const usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
         function inicializarSeguimiento(key) {
             usuarios[key].seguimiento = {
                 botellas: 0,
@@ -216,10 +1835,56 @@
             const seguimiento = obtenerSeguimiento(key);
             if (seguimiento) {
                 const listaReciclados = document.getElementById("lista-objetos-reciclados");
-                listaReciclados.innerHTML = `<strong>${usuarios[key].nombre} - Objetos Reciclados:</strong><br>`;
-                for (const tipoObjeto in seguimiento) {
-                    listaReciclados.innerHTML += `${tipoObjeto}: ${seguimiento[tipoObjeto]}<br>`;
-                }
+                const metasMensuales = JSON.parse(localStorage.getItem("metasMensuales")) || { botellas: 0, papel: 0, cajas: 0 };
+                
+                listaReciclados.style.display = 'block';
+                listaReciclados.querySelector('.card-body').innerHTML = `
+                    <div class="stats-grid" style="margin-bottom: 20px;">
+                        <div class="stat-card" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                            <div class="stat-number">${seguimiento.botellas}</div>
+                            <div class="stat-label">Botellas recicladas</div>
+                        </div>
+                        <div class="stat-card" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                            <div class="stat-number">${seguimiento.papel} kg</div>
+                            <div class="stat-label">Papel reciclado</div>
+                        </div>
+                        <div class="stat-card" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+                            <div class="stat-number">${seguimiento.cajas}</div>
+                            <div class="stat-label">Cajas recicladas</div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="color: var(--text-dark); margin-bottom: 15px;">Progreso hacia tus metas:</h4>
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <span>Botellas: ${seguimiento.botellas} / ${metasMensuales.botellas}</span>
+                            <span class="badge">${Math.round((seguimiento.botellas / metasMensuales.botellas) * 100) || 0}%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${Math.min((seguimiento.botellas / metasMensuales.botellas) * 100, 100)}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <span>Papel: ${seguimiento.papel} kg / ${metasMensuales.papel} kg</span>
+                            <span class="badge">${Math.round((seguimiento.papel / metasMensuales.papel) * 100) || 0}%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${Math.min((seguimiento.papel / metasMensuales.papel) * 100, 100)}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <span>Cajas: ${seguimiento.cajas} / ${metasMensuales.cajas}</span>
+                            <span class="badge">${Math.round((seguimiento.cajas / metasMensuales.cajas) * 100) || 0}%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${Math.min((seguimiento.cajas / metasMensuales.cajas) * 100, 100)}%"></div>
+                        </div>
+                    </div>
+                `;
             }
         }
 
@@ -250,31 +1915,89 @@
         }
 
         function mostrarMetasMensuales() {
-            const metasMensuales = JSON.parse(localStorage.getItem("metasMensuales"));
+            const metasMensuales = JSON.parse(localStorage.getItem("metasMensuales")) || { botellas: 40, papel: 60, cajas: 70 };
             const metasDelMes = document.getElementById("metas-del-mes");
             metasDelMes.innerHTML = `
-                <li>Botellas: ${metasMensuales.botellas}</li>
-                <li>Papel: ${metasMensuales.papel} kg</li>
-                <li>Cajas de Cartón: ${metasMensuales.cajas}</li>
+                <li class="list-group-item">
+                    <span><i class="fas fa-wine-bottle"></i> Botellas</span>
+                    <span class="badge">${metasMensuales.botellas}</span>
+                </li>
+                <li class="list-group-item">
+                    <span><i class="fas fa-newspaper"></i> Papel</span>
+                    <span class="badge">${metasMensuales.papel} kg</span>
+                </li>
+                <li class="list-group-item">
+                    <span><i class="fas fa-box"></i> Cajas de Cartón</span>
+                    <span class="badge">${metasMensuales.cajas}</span>
+                </li>
             `;
         }
 
         function generarTicketDescuento(nombreUsuario) {
             const seguimiento = obtenerSeguimiento(nombreUsuario);
-            const metasMensuales = JSON.parse(localStorage.getItem("metasMensuales"));
+            const metasMensuales = JSON.parse(localStorage.getItem("metasMensuales")) || { botellas: 0, papel: 0, cajas: 0 };
             const ticketInfo = document.getElementById("ticket-info");
+            const nombreUsuarioElement = document.getElementById("nombreUsuario");
+            
+            // Actualizar el nombre del usuario
+            if (usuarios[nombreUsuario]) {
+                nombreUsuarioElement.textContent = usuarios[nombreUsuario].nombre;
+            }
 
             if (seguimiento.botellas >= metasMensuales.botellas && seguimiento.papel >= metasMensuales.papel && seguimiento.cajas >= metasMensuales.cajas) {
-                ticketInfo.innerHTML = "¡Felicidades! Has alcanzado tus metas de reciclaje y has ganado un 20% de descuento.";
+                ticketInfo.innerHTML = `
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <span><strong>¡Felicidades!</strong> Has alcanzado tus metas de reciclaje y has ganado un <strong>20% de descuento</strong>.</span>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #27ae60, #229954); color: white; border: none;">
+                        <div class="card-header" style="color: white; border-color: rgba(255,255,255,0.2);">
+                            <i class="fas fa-ticket-alt"></i> CÓDIGO DE DESCUENTO
+                        </div>
+                        <div class="card-body" style="color: white;">
+                            <div style="font-size: 1.5rem; font-weight: bold; text-align: center; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 8px; letter-spacing: 2px;">
+                                ECO2024-${nombreUsuario.slice(-6).toUpperCase()}
+                            </div>
+                        </div>
+                    </div>
+                `;
             } else {
-                ticketInfo.innerHTML = "Aún no has alcanzado tus metas de reciclaje para este mes.";
+                const progresoTotal = Math.round(((seguimiento.botellas / metasMensuales.botellas) + (seguimiento.papel / metasMensuales.papel) + (seguimiento.cajas / metasMensuales.cajas)) / 3 * 100) || 0;
+                ticketInfo.innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Aún no has alcanzado tus metas. Llevas el <strong>${progresoTotal}%</strong> del progreso total.</span>
+                    </div>
+                    <div class="card" style="background: var(--bg-light);">
+                        <div class="card-header">
+                            <i class="fas fa-chart-line"></i> Progreso General
+                        </div>
+                        <div class="card-body">
+                            <div class="progress" style="height: 12px;">
+                                <div class="progress-bar" style="width: ${progresoTotal}%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 10px; color: var(--text-light);">¡Sigue reciclando para alcanzar tu descuento!</p>
+                        </div>
+                    </div>
+                `;
             }
         }
 
         function mostrarDescuentosDisponibles() {
             const descuentosInfo = document.getElementById("descuentos-info");
             descuentosInfo.innerHTML = `
-                <li>20% de descuento en la tienda al alcanzar las metas de reciclaje.</li>
+                <li class="list-group-item">
+                    <span><i class="fas fa-percentage"></i> 20% de descuento en productos ecológicos</span>
+                    <span class="badge">Activo</span>
+                </li>
+                <li class="list-group-item">
+                    <span><i class="fas fa-leaf"></i> Puntos verdes dobles en compras</span>
+                    <span class="badge">Activo</span>
+                </li>
+                <li class="list-group-item">
+                    <span><i class="fas fa-truck"></i> Envío gratis en pedidos > $50</span>
+                    <span class="badge">Activo</span>
+                </li>
             `;
         }
 
@@ -356,25 +2079,192 @@
 
         function generarInformePersonas() {
             const informe = document.getElementById("informe-personas");
-            informe.innerHTML = "<h3>Informe de Personas Registradas:</h3>";
+            const usuariosArray = Object.values(usuarios);
+            
+            if (usuariosArray.length === 0) {
+                informe.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Aún no hay usuarios registrados en el sistema.</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Estadísticas generales con diseño moderno
+            const totalBotellas = usuariosArray.reduce((sum, u) => sum + u.seguimiento.botellas, 0);
+            const totalPapel = usuariosArray.reduce((sum, u) => sum + u.seguimiento.papel, 0);
+            const totalCajas = usuariosArray.reduce((sum, u) => sum + u.seguimiento.cajas, 0);
+            const totalPuntos = usuariosArray.reduce((sum, u) => sum + u.seguimiento.botellas + u.seguimiento.papel + u.seguimiento.cajas, 0);
+            
+            informe.innerHTML = `
+                <div class="stats-overview">
+                    <div class="stats-header">
+                        <h3><i class="fas fa-trophy"></i> Panel de Estadísticas Ambientales</h3>
+                        <div class="live-indicator">
+                            <span class="live-dot"></span>
+                            <span>En vivo</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-grid-modern">
+                        <div class="stat-card-modern" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">${usuariosArray.length}</div>
+                                <div class="stat-label">Eco-Héroes</div>
+                                <div class="stat-change">+12% este mes</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card-modern" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <div class="stat-icon">
+                                <i class="fas fa-wine-bottle"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">${totalBotellas}</div>
+                                <div class="stat-label">Botellas Recicladas</div>
+                                <div class="stat-change">+25% este mes</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card-modern" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            <div class="stat-icon">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">${totalPapel} kg</div>
+                                <div class="stat-label">Papel Reciclado</div>
+                                <div class="stat-change">+18% este mes</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card-modern" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                            <div class="stat-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number">${totalCajas}</div>
+                                <div class="stat-label">Cajas Recicladas</div>
+                                <div class="stat-change">+30% este mes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
 
-            const usuariosOrdenados = Object.values(usuarios).sort((a, b) => {
+            // Ordenar usuarios por puntos
+            const usuariosOrdenados = usuariosArray.sort((a, b) => {
                 const totalA = a.seguimiento.botellas + a.seguimiento.papel + a.seguimiento.cajas;
                 const totalB = b.seguimiento.botellas + b.seguimiento.papel + b.seguimiento.cajas;
                 return totalB - totalA;
             });
 
-            usuariosOrdenados.forEach((usuario, index) => {
-                informe.innerHTML += `
-                    <strong>${index + 1}. Nombre:</strong> ${usuario.nombre}<br>
-                    <strong>Tipo de Documento:</strong> ${usuario.tipoDocumento}<br>
-                    <strong>Número de Documento:</strong> ${usuario.documento}<br>
-                    <strong>Seguimiento de Reciclaje:</strong><br>
-                    Botellas: ${usuario.seguimiento.botellas}<br>
-                    Papel: ${usuario.seguimiento.papel}<br>
-                    Cajas de Cartón: ${usuario.seguimiento.cajas}<br><br>
+            // Top 3 con tarjetas especiales
+            let topHTML = '<div class="top-recyclers-section">';
+            topHTML += '<h3 class="section-title"><i class="fas fa-medal"></i> Eco-Líderes del Mes</h3>';
+            topHTML += '<div class="top-three-grid">';
+            
+            usuariosOrdenados.slice(0, 3).forEach((usuario, index) => {
+                const total = usuario.seguimiento.botellas + usuario.seguimiento.papel + usuario.seguimiento.cajas;
+                const position = index + 1;
+                const medals = ['🥇', '🥈', '�'];
+                const medalColors = ['#FFD700', '#C0C0C0', '#CD7F32'];
+                const backgrounds = [
+                    'linear-gradient(135deg, #FFD700, #FFA500)',
+                    'linear-gradient(135deg, #C0C0C0, #808080)',
+                    'linear-gradient(135deg, #CD7F32, #8B4513)'
+                ];
+                
+                topHTML += `
+                    <div class="top-recycler-card" style="animation-delay: ${index * 0.1}s">
+                        <div class="medal-badge" style="background: ${backgrounds[index]}; color: white;">
+                            <span class="medal-emoji">${medals[index]}</span>
+                            <span class="position-number">#${position}</span>
+                        </div>
+                        
+                        <div class="recycler-avatar">
+                            <div class="avatar-circle" style="background: ${medalColors[index]};">
+                                <span class="avatar-text">${usuario.nombre.charAt(0).toUpperCase()}</span>
+                            </div>
+                            <div class="avatar-ring"></div>
+                        </div>
+                        
+                        <div class="recycler-info">
+                            <h4 class="recycler-name">${usuario.nombre}</h4>
+                            <p class="recycler-id">${usuario.tipoDocumento} - ${usuario.documento}</p>
+                            
+                            <div class="recycler-stats">
+                                <div class="mini-stat">
+                                    <i class="fas fa-wine-bottle"></i>
+                                    <span>${usuario.seguimiento.botellas}</span>
+                                </div>
+                                <div class="mini-stat">
+                                    <i class="fas fa-newspaper"></i>
+                                    <span>${usuario.seguimiento.papel}kg</span>
+                                </div>
+                                <div class="mini-stat">
+                                    <i class="fas fa-box"></i>
+                                    <span>${usuario.seguimiento.cajas}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="total-points">
+                            <div class="points-number">${total}</div>
+                            <div class="points-label">Puntos</div>
+                        </div>
+                        
+                        <div class="progress-ring">
+                            <svg class="progress-svg" width="60" height="60">
+                                <circle class="progress-bg" cx="30" cy="30" r="25" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
+                                <circle class="progress-fill" cx="30" cy="30" r="25" fill="none" stroke="white" stroke-width="4"
+                                    stroke-dasharray="${(total / totalPuntos) * 157} 157" stroke-dashoffset="0"
+                                    transform="rotate(-90 30 30)"/>
+                            </svg>
+                            <div class="progress-percentage">${Math.round((total / totalPuntos) * 100)}%</div>
+                        </div>
+                    </div>
                 `;
             });
+            
+            topHTML += '</div>';
+            
+            // Resto de usuarios en lista compacta
+            if (usuariosOrdenados.length > 3) {
+                topHTML += '<div class="rest-recyclers">';
+                topHTML += '<h4 class="subsection-title">Más Eco-Héroes</h4>';
+                topHTML += '<div class="recyclers-list-compact">';
+                
+                usuariosOrdenados.slice(3).forEach((usuario, index) => {
+                    const total = usuario.seguimiento.botellas + usuario.seguimiento.papel + usuario.seguimiento.cajas;
+                    const position = index + 4;
+                    
+                    topHTML += `
+                        <div class="recycler-item-compact" style="animation-delay: ${(index + 3) * 0.03}s">
+                            <div class="position-compact">${position}</div>
+                            <div class="user-info-compact">
+                                <div class="user-name-compact">${usuario.nombre}</div>
+                                <div class="user-stats-compact">
+                                    <span class="stat-item"><i class="fas fa-wine-bottle"></i> ${usuario.seguimiento.botellas}</span>
+                                    <span class="stat-item"><i class="fas fa-newspaper"></i> ${usuario.seguimiento.papel}kg</span>
+                                    <span class="stat-item"><i class="fas fa-box"></i> ${usuario.seguimiento.cajas}</span>
+                                </div>
+                            </div>
+                            <div class="user-points-compact">
+                                <div class="points-badge-compact">${total}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                topHTML += '</div></div>';
+            }
+            
+            topHTML += '</div>';
+            informe.innerHTML += topHTML;
         }
 
         document.getElementById("btn-generar-informe").addEventListener("click", generarInformePersonas);
